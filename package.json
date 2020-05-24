@@ -1,10 +1,10 @@
 {
-  "name": "beast",
+  "name": "ryujinmaster",
   "version": "1.0.2",
-  "description": "blah blah",
+  "description": "Practice discord multi-util bot.",
   "main": "node bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon bot.js",
     "start": "node bot.js"
   },
   "engines": {
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sync-Codes/Ajax.git"
+    "url": "git+https://github.com/Sync-Codes/GinBot.git"
   },
   "author": "Sync",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Sync-Codes/Ajax/issues"
+    "url": "https://github.com/Sync-Codes/GinBot/issues"
   },
-  "homepage": "https://github.com/Sync-Codes/Aajx#readme",
+  "homepage": "https://github.com/Sync-Codes/GinBot#readme",
   "dependencies": {
     "animequote": "^1.1.1",
     "bufferutil": "^4.0.1",
