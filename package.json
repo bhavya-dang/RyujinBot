@@ -36,6 +36,7 @@
     "get-json": "^2.0.0",
     "google": "^2.1.0",
     "google-translate-api": "^2.3.0",
+    "hastebin-gen": "^2.0.5",
     "he": "^1.2.0",
     "https": "^1.0.0",
     "idiotic-api": "^0.2.11",
@@ -53,6 +54,7 @@
     "parse-ms": "^2.1.0",
     "profanities": "^2.11.0",
     "querystring": "^0.2.0",
+    "quick.db": "^6.3.2",
     "random-puppy": "^1.1.0",
     "request": "^2.88.0",
     "string-similarity": "^3.0.0",
@@ -60,10 +62,7 @@
     "turndown": "^5.0.3",
     "urban": "^0.3.2",
     "util": "^0.12.1",
-    "weather.js": "^0.1.0",
-    "ytdl-core": "^0.29.3",
-    "quick.db": "^6.3.2",
     "weather-js": "^2.0.0",
-    "hastebin-gen": "^2.0.5"
+    "ytdl-core": "^0.29.3"
   }
 }
