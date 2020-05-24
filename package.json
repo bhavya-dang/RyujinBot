@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sync-Codes/GinBot.git"
+    "url": "git+https://github.com/Sync-Codes/RyujinBot.git"
   },
   "author": "Sync",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Sync-Codes/GinBot/issues"
+    "url": "https://github.com/Sync-Codes/RyujinBot/issues"
   },
-  "homepage": "https://github.com/Sync-Codes/GinBot#readme",
+  "homepage": "https://github.com/Sync-Codes/RyujinBot#readme",
   "dependencies": {
     "animequote": "^1.1.1",
     "bufferutil": "^4.0.1",
