@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args) => {
         .addField("Genres", data.genres.toString())
         .addField("Episodes", data.episodes, true)
         .addField("Aired", data.aired, true)
-        .addField("Status".data.status, true)
+        .addField("Status", data.status, true)
         .addField("Score", data.score)
         .addField("Rank", data.ranked)
         .addField("Studio(s)", data.studios.toString());
