@@ -7,8 +7,9 @@ module.exports.run = async (bot, message, args) => {
   const query = args.join(" ");
   const data = await fn.get(query, fortnite.PC);
   const embed = new Discord.RichEmbed()
-  .setTitle(data.account.displayName)
-  .setURL(`https://fortnitetracker.com/profile/all/${data.account.displayName}`)
+  // .setTitle(data.account.displayName)
+  // .setURL(`https://fortnitetracker.com/profile/all/${data.account.displayName}`)
+  .setTitle("Stats")
   .setFooter("Information supplied by fortnitetracker.com")
   .setTimestamp(moment.utc().format())
   .addField("Kills", data.stats.kills, true)
