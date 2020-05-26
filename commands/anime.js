@@ -4,19 +4,21 @@ const moment = require("moment");
 
 module.exports.run = async (bot, message, args) => {
   let query = args.join(" ");
-  if (!query) {
+  console.log(query);
+  if (!query || args.length === 0) {
     return message.channel.send(
-      (embed = {
+      {
+          embed = {
         title: "**ERROR - Missing Parameters!**",
         fields: [
           {
             name: "Usage",
             value: "`r@anime <search query>`",
             inline: true,
-          },
-        ],
-      })
-    );
+          }
+        ]
+    }
+})
   } else {
     malScraper.getInfoFromName(query).then(data => {
         const embed = new Discord.RichEmbed()
