@@ -29,15 +29,17 @@ module.exports.run = async (bot, message, args) => {
     .setColor("#ff1453")
     .setThumbnail(data.picture)
     .addField("English Title", data.englishTitle, true)
-    .addField("Genres", data.genres.join(", "))
+    // .addField("Genres", data.genres.join(", "))
     .addField("Episodes", data.episodes, true)
     .addField("Aired", data.aired, true)
     .addField("Status".data.status, true)
     .addField("Score", data.score)
-    .addField("Rank", data.ranked)
-    .addField("Studio(s)", data.studios.join(", "));
+    .addField("Rank", data.ranked);
+    // .addField("Studio(s)", data.studios.join(", "));
+
+    message.channel.send(embed);
 };
 
 module.exports.help = {
-  name: "anime",
+  name: "anime"
 };
