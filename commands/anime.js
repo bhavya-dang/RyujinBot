@@ -3,7 +3,7 @@ const malScraper = require("mal-scraper");
 const moment = require("moment");
 
 module.exports.run = async (bot, message, args) => {
-    let query = args.slice(22);
+    let query = args.join(" ");
     if(!query) return message.channel.send(embed = {
         "title": "**ERROR - Missing Parameters!**",
         "fields": [
@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args) => {
             }
         ]
     })
-    
+
     const data = malScraper.getInfoFromName(query);
 
     let embed = new Discord.RichEmbed()
