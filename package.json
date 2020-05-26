@@ -42,6 +42,8 @@
     "idiotic-api": "^0.2.11",
     "isgd": "^1.1.3",
     "kitsu": "^7.0.4",
+    "mal-scraper": "^2.6.9",
+    "maljs": "^0.3.0",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
     "ms": "^2.1.2",
