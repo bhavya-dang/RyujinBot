@@ -3,21 +3,24 @@ const malScraper = require("mal-scraper");
 const moment = require("moment");
 
 module.exports.run = async (bot, message, args) => {
-    let query = args.join(" ");
-    if(!query) return message.channel.send(embed = {
-        "title": "**ERROR - Missing Parameters!**",
-        "fields": [
-            {
-                "name": "Usage",
-                "value": "`r@anime <search query>`",
-                "inline": true
-            }
-        ]
-    })
+  let query = args.join(" ");
+  if (!query)
+    return message.channel.send(
+      (embed = {
+        title: "**ERROR - Missing Parameters!**",
+        fields: [
+          {
+            name: "Usage",
+            value: "`r@anime <search query>`",
+            inline: true,
+          },
+        ],
+      })
+    );
 
-    const data = malScraper.getInfoFromName(query);
+  const data = malScraper.getInfoFromName(query);
 
-    let embed = new Discord.RichEmbed()
+  let embed = new Discord.RichEmbed()
     .setTimestamp(moment.utc().format())
     .setFooter("Information supplied by MyAnimeList")
     .setTitle(data.title)
@@ -29,14 +32,12 @@ module.exports.run = async (bot, message, args) => {
     .addField("Genres", data.genres.join(", "))
     .addField("Episodes", data.episodes, true)
     .addField("Aired", data.aired, true)
-    .addField("Status". data.status, true)
+    .addField("Status".data.status, true)
     .addField("Score", data.score)
     .addField("Rank", data.ranked)
-    .addField("Studio(s)", data.studios.join(", "))
-
-    
-}
+    .addField("Studio(s)", data.studios.join(", "));
+};
 
 module.exports.help = {
-name: "anime"
-}
+  name: "anime",
+};
