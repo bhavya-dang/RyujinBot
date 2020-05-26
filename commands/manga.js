@@ -96,6 +96,6 @@ module.exports.run = (bot, message, args) => {
 };
 
 module.exports.help = {
-  name: "!manga find <name>",
+  name: "manga find <name>",
   value: "Show information of anime that related to its name",
 };
