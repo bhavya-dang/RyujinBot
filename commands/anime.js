@@ -19,25 +19,25 @@ module.exports.run = async (bot, message, args) => {
     );
 
   const data = malScraper.getInfoFromName(query);
+  console.log(data);
+//   let embed = new Discord.RichEmbed()
+//     .setTimestamp(moment.utc().format())
+//     .setFooter("Information supplied by MyAnimeList")
+//     .setTitle(data.title)
+//     .setURL(data.url)
+//     .setDescription(`**Synopsis:**\n${data.synopsis}`)
+//     .setColor("#ff1453")
+//     .setThumbnail(data.picture)
+//     .addField("English Title", data.englishTitle, true)
+//     // .addField("Genres", data.genres.join(", "))
+//     .addField("Episodes", data.episodes, true)
+//     .addField("Aired", data.aired, true)
+//     .addField("Status".data.status, true)
+//     .addField("Score", data.score)
+//     .addField("Rank", data.ranked);
+//     // .addField("Studio(s)", data.studios.join(", "));
 
-  let embed = new Discord.RichEmbed()
-    .setTimestamp(moment.utc().format())
-    .setFooter("Information supplied by MyAnimeList")
-    .setTitle(data.title)
-    .setURL(data.url)
-    .setDescription(`**Synopsis:**\n${data.synopsis}`)
-    .setColor("#ff1453")
-    .setThumbnail(data.picture)
-    .addField("English Title", data.englishTitle, true)
-    // .addField("Genres", data.genres.join(", "))
-    .addField("Episodes", data.episodes, true)
-    .addField("Aired", data.aired, true)
-    .addField("Status".data.status, true)
-    .addField("Score", data.score)
-    .addField("Rank", data.ranked);
-    // .addField("Studio(s)", data.studios.join(", "));
-
-    message.channel.send(embed);
+//     message.channel.send(embed);
 };
 
 module.exports.help = {
