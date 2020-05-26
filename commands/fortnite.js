@@ -19,6 +19,8 @@ module.exports.run = async (bot, message, args) => {
   .addField("Win %", data.stats.winPercent, true)
   .addField("Matches", data.stats.matches, true)
   .setColor("#EEFF41")
+
+  message.channel.send(embed);
 };
 
 module.exports.help = {

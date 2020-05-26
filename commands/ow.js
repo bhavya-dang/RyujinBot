@@ -1,9 +1,24 @@
 const Discord = require("discord.js");
 const ow = require('overwatch-stats-api');
-
+const moment = require("moment");
 module.exports.run = async (bot, message, args) => {
-    const stats = await ow.getAllStats('HusseinObama-11715', 'pc');
-    console.log(stats);
+
+    const name = args.slice(0, 1)
+    const platform = args.slice(1)
+    const stats = await ow.getAllStats(name, platform);
+
+    const embed = new Discord.RichEmbed()
+    .setTitle(stats.battletag)
+    .setURL(stats.profileURL)
+    .setThumbnail(stats.iconURL)
+    .setColor("#f57e00")
+    .setTimestamp(moment.utc().format())
+    .addField("Level", stats.level, true)
+    .addField("Prestige", stats.prestige, true)
+    .addField("Endorsement Level", stats.endorsementLevel, true)
+    .setFooter("Information supplied by Overwatch API Wrapper.");
+
+    message.channel.send(embed)
 };
 
 module.exports.help = {
