@@ -3,7 +3,7 @@ const malScraper = require("mal-scraper");
 const moment = require("moment");
 
 module.exports.run = async (bot, message, args) => {
-  let query = args.join(" ");
+  let query = args.slice(0)
   if (!query)
     return message.channel.send(
       (embed = {
