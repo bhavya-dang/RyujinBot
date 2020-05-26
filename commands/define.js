@@ -17,7 +17,7 @@ module.exports.run = async (client, message, args) => {
       .addField("Upvotes", json.thumbs_up, true)
       .addField("Downvotes", json.thumbs_down, true)
       .setFooter(`Written By ${json.author}`)
-      .setColor("#ffffff");
+      .setColor("#4DB6AC");
     message.channel.send(embed);
   });
 };

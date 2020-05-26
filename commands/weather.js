@@ -17,7 +17,7 @@ return;
     .setAuthor(`Weather for ${current.observationpoint}`)
     .setThumbnail(current.imageUrl)
     .setColor(0x00AE86)
-    .addField('Timezone', `UTC${location.timezone}, true`)
+    .addField('Timezone', `UTC${location.timezone}`, true)
     .addField('Degree Type', location.degreetype, true)
     .addField('Temperature', `${current.temperature} Degrees`, true)
     .addField('Feels Like', `${current.feelslike} Degrees`, true)

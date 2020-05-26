@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args) => {
 
   let embed = new Discord.RichEmbed()
   .setTitle(`Server Stats`)
-  .setColor("#ffffff")
+  .setColor("#00171f")
   .setThumbnail(icon)
   .addField('Guild Name', guild.name, true)
   .addField('Guild ID', guild.id, true)

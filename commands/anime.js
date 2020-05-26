@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#ff1453")
         .setThumbnail(data.picture)
         .addField("English Title", data.englishTitle, true)
-        .addField("Genres", data.genres.toString())
+        .addField("Genres", data.genres.toString(), true)
         .addField("Episodes", data.episodes, true)
         .addField("Aired", data.aired, true)
         .addField("Status", data.status, true)

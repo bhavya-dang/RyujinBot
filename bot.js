@@ -18,7 +18,7 @@ const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
 const prefix = "r@";
-bot.Footer = "Sync#0666";
+bot.Footer = "Instagram: syn.xc";
 bot.commands = new Discord.Collection();
 
 let cooldown = new Set();
