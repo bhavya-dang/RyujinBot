@@ -46,7 +46,6 @@ module.exports.run = async (bot, message, args) => {
   .setColor("#F44336")
   .addField("r@animeme", "Get an anime meme.")
   .addField("r@anime <query>", "Fetch info about any anime!")
-  .addField("r@manga <query>", "Fetch info about any manga!")
   .addField("r@neko", "Get a random Neko image!")
   .setFooter(bot.Footer, bot.user.displayAvatarURL);
   message.channel.send(animeEmbed);
