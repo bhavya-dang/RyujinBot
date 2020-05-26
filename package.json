@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Sync-Codes/RyujinBot#readme",
   "dependencies": {
+    "MALjs": "^0.1.0",
     "animequote": "^1.1.1",
     "bufferutil": "^4.0.1",
     "canvas": "^2.6.0",
