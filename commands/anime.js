@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
       })
     );
   } else {
-    const data = malScraper.getInfoFromName(query);
+    const data = malScraper.getInfoFromName(query).then(d => {return d})
     console.log(data);
     //   let embed = new Discord.RichEmbed()
     //     .setTimestamp(moment.utc().format())
