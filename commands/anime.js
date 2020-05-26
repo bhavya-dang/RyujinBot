@@ -5,23 +5,24 @@ const moment = require("moment");
 module.exports.run = async (bot, message, args) => {
   let query = args.join(" ");
   console.log(query);
-  if (!query || args.length === 0) {
-    return message.channel.send(
-      {
-          embed = {
-        title: "**ERROR - Missing Parameters!**",
-        fields: [
-          {
-            name: "Usage",
-            value: "`r@anime <search query>`",
-            inline: true,
-          }
-        ]
-    }
-})
-  } else {
-    malScraper.getInfoFromName(query).then(data => {
-        const embed = new Discord.RichEmbed()
+  //   if (!query || args.length === 0) {
+  //     return message.channel.send(
+  //       {
+  //           embed = {
+  //         title: "**ERROR - Missing Parameters!**",
+  //         fields: [
+  //           {
+  //             name: "Usage",
+  //             value: "`r@anime <search query>`",
+  //             inline: true,
+  //           }
+  //         ]
+  //     }
+  // })
+  //   } else {
+  try {
+    malScraper.getInfoFromName(query).then((data) => {
+      const embed = new Discord.RichEmbed()
         .setTimestamp(moment.utc().format())
         .setFooter("Information supplied by MyAnimeList")
         .setTitle(data.title)
@@ -38,8 +39,10 @@ module.exports.run = async (bot, message, args) => {
         .addField("Rank", data.ranked)
         .addField("Studio(s)", data.studios.toString());
 
-        message.channel.send(embed);
+      message.channel.send(embed);
     });
+  } catch (error) {
+    console.log(error);
   }
 };
 
