@@ -1,5 +1,5 @@
 const MALjs = require("MALjs");
-const mal = new MALjs("RyujinBot", "Rssb**99");
+const mal = new MALjs("ryujinbot", "Rssb**99");
 const moment = require("moment");
 module.exports.run = (bot, message, args) => {
   // eslint-disable-line no-unused-vars
