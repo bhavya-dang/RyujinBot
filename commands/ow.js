@@ -1,10 +1,9 @@
 const Discord = require("discord.js");
-const oversmash = require("oversmash");
-const ow = oversmash();
+const ow = require('overwatch-stats-api');
+
 module.exports.run = async (bot, message, args) => {
-  ow.player("bob#12345").then((player) => {
-    console.log(player);
-  });
+    const stats = await ow.getAllStats('HusseinObama-11715', 'pc');
+    console.log(stats);
 };
 
 module.exports.help = {

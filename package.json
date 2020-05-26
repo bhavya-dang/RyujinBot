@@ -55,6 +55,7 @@
     "opusscript": "0.0.6",
     "os": "^0.1.1",
     "oversmash": "^1.6.0",
+    "overwatch-stats-api": "^2.1.0",
     "parse-ms": "^2.1.0",
     "profanities": "^2.11.0",
     "querystring": "^0.2.0",
