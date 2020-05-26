@@ -18,8 +18,7 @@ module.exports.run = async (bot, message, args) => {
       })
     );
   } else {
-    const data = malScraper.getInfoFromName(query).then(d => {return d})
-    console.log(data);
+    malScraper.getInfoFromName(query).then(d => console.log(d));
     //   let embed = new Discord.RichEmbed()
     //     .setTimestamp(moment.utc().format())
     //     .setFooter("Information supplied by MyAnimeList")
