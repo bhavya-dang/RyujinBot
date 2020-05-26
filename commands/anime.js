@@ -24,10 +24,9 @@ module.exports.run = async (bot, message, args) => {
     malScraper.getInfoFromName(query).then((data) => {
       const embed = new Discord.RichEmbed()
         .setTimestamp(moment.utc().format())
-        .setFooter("Information supplied by MyAnimeList")
+        .setFooter("Information supplied by MyAnimeList API")
         .setTitle(data.title)
         .setURL(data.url)
-        .setDescription(`**Synopsis:**\n${data.synopsis}`)
         .setColor("#ff1453")
         .setThumbnail(data.picture)
         .addField("English Title", data.englishTitle, true)
@@ -35,9 +34,10 @@ module.exports.run = async (bot, message, args) => {
         .addField("Episodes", data.episodes, true)
         .addField("Aired", data.aired, true)
         .addField("Status", data.status, true)
-        .addField("Score", data.score)
-        .addField("Rank", data.ranked)
-        .addField("Studio(s)", data.studios.toString());
+        .addField("Score", data.score, true)
+        .addField("Rank", data.ranked, true)
+        .addField("Studio(s)", data.studios.toString(), true)
+        .setDescription(`**Synopsis:**\n${data.synopsis.slice(0, -25)}`)
 
       message.channel.send(embed);
     });
