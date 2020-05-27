@@ -95,11 +95,8 @@ module.exports.run = async (bot, message, args) => {
         item.incorrect_answers.push(item.correct_answer);
         const arr = item.incorrect_answers;
         console.log(shuffle(item.incorrect_answers));
-        const filter = (response) => {
-          return arr.includes(
-            (answer) => answer.toLowerCase() === response.content.toLowerCase()
-          );
-        };
+        const filter = (answer) => answer === item.correct_answer;
+
 
         const questionEmbed = new Discord.RichEmbed()
           .setTitle(`**Category: ${item.category}**`)
