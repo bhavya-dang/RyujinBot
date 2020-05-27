@@ -56,7 +56,7 @@
 // }
 
 const Discord = require("discord.js");
-const fetch = require("node-superfetch");
+const fetch = require("node-fetch");
 
 module.exports.run = async (bot, message, args) => {
   const options = {
@@ -65,7 +65,7 @@ module.exports.run = async (bot, message, args) => {
     errors: ["time"],
   };
   try {
-    fetch.get(
+    fetch(
       "https://opentdb.com/api.php?amount=50&token=892edf891781a29082ccc990539e5fe880a9a2ae66a548e440cdb864fd7e2e3d"
     ).then(async d => {    
       console.log(d.results);
