@@ -118,7 +118,7 @@ module.exports.run = async (bot, message, args) => {
           .setFooter("Powered by Open Trivia DB API.");
         await message.channel.send(questionEmbed).then(() => {
           message.channel
-            .awaitMessages((a) => filter, options)
+            .awaitMessages(filter, options)
             .then(collected =>    {      
             const winnerMessage = collected.first();
             return message.channel.send({
