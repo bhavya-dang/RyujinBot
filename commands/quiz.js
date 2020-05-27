@@ -64,63 +64,37 @@ module.exports.run = async (bot, message, args) => {
       "https://opentdb.com/api.php?amount=50&token=892edf891781a29082ccc990539e5fe880a9a2ae66a548e440cdb864fd7e2e3d"
     );
     console.log(quiz);
-  } catch (err) {
-    console.error(err);
-  }
-  const options = {
-    max: 1,
-    time: 300000,
-    errors: ["time"],
-  };
+    const options = {
+      max: 1,
+      time: 300000,
+      errors: ["time"],
+    };
 
-  const item = quiz.results[Math.floor(Math.random() * quiz.length)];
-  const questionEmbed = new Discord.RichEmbed()
-    .setTitle(`**Category: ${item.category}**`)
-    .setURL("https://opentdb.com/api_config.php")
-    .setColor("#69c")
-    .setTimestamp(moment.utc().format())
-    .addField("Difficulty", item.difficulty, true)
-    .addField("Type", item.type, true)
-    .addField("Question:", item.question)
-    .setFooter("Questions supplied by Open Trivia DB API.");
-  await message.channel.send(questionEmbed);
+    const item = quiz.results[Math.floor(Math.random() * quiz.length)];
+    const questionEmbed = new Discord.RichEmbed()
+      .setTitle(`**Category: ${item.category}**`)
+      .setURL("https://opentdb.com/api_config.php")
+      .setColor("#69c")
+      .setTimestamp(moment.utc().format())
+      .addField("Difficulty", item.difficulty, true)
+      .addField("Type", item.type, true)
+      .addField("Question:", item.question)
+      .setFooter("Questions supplied by Open Trivia DB API.");
+    await message.channel.send(questionEmbed);
 
-  try {
-    const collected = await message.channel.awaitMessages(
-      (answer) => item.correct_answer.includes(answer.content.toLowerCase()),
-      options
-    );
-    const winnerMessage = collected.first();
-    return message.channel.send({
-      embed: new Discord.RichEmbed()
-        .setAuthor(
-          `Winner: ${winnerMessage.author.tag}`,
-          winnerMessage.author.displayAvatarURL
-        )
-        .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-        .setFooter(`Question: ${item.question}`)
-        .setColor(
-          `${
-            message.guild.me.displayHexColor !== "#000000"
-              ? message.guild.me.displayHexColor
-              : 0xffffff
-          }`
-        ),
-    });
-  } catch (_) {
-    if (
-      await message.channel.awaitMessages(
-        (answer) => !item.a.includes(answer.content.toLowerCase()),
+    try {
+      const collected = await message.channel.awaitMessages(
+        (answer) => item.correct_answer.includes(answer.content.toLowerCase()),
         options
-      )
-    )
+      );
+      const winnerMessage = collected.first();
       return message.channel.send({
         embed: new Discord.RichEmbed()
           .setAuthor(
-            `Wrong Answer! ${winnerMessage.author.tag}`,
+            `Winner: ${winnerMessage.author.tag}`,
             winnerMessage.author.displayAvatarURL
           )
-          .addField(`Correct Answer: \`${item.correct_answer}\``)
+          .setTitle(`Correct Answer: \`${item.correct_answer}\``)
           .setFooter(`Question: ${item.question}`)
           .setColor(
             `${
@@ -130,6 +104,32 @@ module.exports.run = async (bot, message, args) => {
             }`
           ),
       });
+    } catch (_) {
+      if (
+        await message.channel.awaitMessages(
+          (answer) => !item.a.includes(answer.content.toLowerCase()),
+          options
+        )
+      )
+        return message.channel.send({
+          embed: new Discord.RichEmbed()
+            .setAuthor(
+              `Wrong Answer! ${winnerMessage.author.tag}`,
+              winnerMessage.author.displayAvatarURL
+            )
+            .addField(`Correct Answer: \`${item.correct_answer}\``)
+            .setFooter(`Question: ${item.question}`)
+            .setColor(
+              `${
+                message.guild.me.displayHexColor !== "#000000"
+                  ? message.guild.me.displayHexColor
+                  : 0xffffff
+              }`
+            ),
+        });
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 module.exports.help = {
