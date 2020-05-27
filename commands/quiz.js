@@ -93,6 +93,7 @@ module.exports.run = async (bot, message, args) => {
 
         // const choices = item.incorrect_answers.push(Math.floor(Math.random() * item.incorrect_answers.length), 0, item.correct_answer);
         const choices = item.incorrect_answers.push(item.correct_answer);
+        console.log(shuffle(choices));
         const questionEmbed = new Discord.RichEmbed()
           .setTitle(`**Category: ${item.category}**`)
           .setURL("https://opentdb.com/api_config.php")
@@ -106,7 +107,7 @@ module.exports.run = async (bot, message, args) => {
           )
           .addField("Type", item.type, true)
           .addField("Question:", item.question)
-          .addField("Choices: ", shuffle(choices).toString())
+          .addField("Choices: ", `${shuffle(choices).toString()}`)
           .setFooter("Powered by Open Trivia DB API.");
         await message.channel.send(questionEmbed);
 
@@ -123,7 +124,9 @@ module.exports.run = async (bot, message, args) => {
                 winnerMessage.author.displayAvatarURL
               )
               .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-              .setFooter(`Question: ${item.question.replace(/&quot;/g, '"')}`)
+              .setFooter(
+                `Question: ${item.question.replace(/(?:\&quot\;)/g, '"')}`
+              )
               .setColor(
                 `${
                   message.guild.me.displayHexColor !== "#000000"
