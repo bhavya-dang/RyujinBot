@@ -113,55 +113,59 @@ module.exports.run = async (bot, message, args) => {
           )
           .setFooter("Powered by Open Trivia DB API.");
         await message.channel.send(questionEmbed);
-        if (
-          await message.channel.awaitMessages(
-            (answer) =>
-              item.incorrect_answers.includes(answer.content.toLowerCase()),
-            options
-          )
-        ) {
-          const winnerMessage = collected.first();
-          return message.channel.send({
-            embed: new Discord.RichEmbed()
-              .setAuthor(
-                `Winner: ${winnerMessage.author.tag}`,
-                winnerMessage.author.displayAvatarURL
-              )
-              .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-              .setFooter(
-                `Question: ${item.question.replace(/(?:\&quot\;)/g, '"')}`
-              )
-              .setColor(
-                `${
-                  message.guild.me.displayHexColor !== "#000000"
-                    ? message.guild.me.displayHexColor
-                    : 0xffffff
-                }`
-              ),
-          });
-        } else if (
-          await message.channel.awaitMessages(
-            (answer) =>
-              !item.incorrect_answers.includes(answer.content.toLowerCase()),
-            options
-          )
-        ) {
-          return message.channel.send({
-            embed: new Discord.RichEmbed()
-              .setAuthor(
-                `Wrong Answer! ${winnerMessage.author.tag}`,
-                winnerMessage.author.displayAvatarURL
-              )
-              .addField(`Correct Answer: \`${item.correct_answer}\``)
-              .setFooter(`Question: ${item.question}`)
-              .setColor(
-                `${
-                  message.guild.me.displayHexColor !== "#000000"
-                    ? message.guild.me.displayHexColor
-                    : 0xffffff
-                }`
-              ),
-          });
+        try {
+          if (
+            await message.channel.awaitMessages(
+              (answer) =>
+                item.incorrect_answers.includes(answer.content.toLowerCase()),
+              options
+            )
+          ) {
+            const winnerMessage = collected.first();
+            return message.channel.send({
+              embed: new Discord.RichEmbed()
+                .setAuthor(
+                  `Winner: ${winnerMessage.author.tag}`,
+                  winnerMessage.author.displayAvatarURL
+                )
+                .setTitle(`Correct Answer: \`${item.correct_answer}\``)
+                .setFooter(
+                  `Question: ${item.question.replace(/(?:\&quot\;)/g, '"')}`
+                )
+                .setColor(
+                  `${
+                    message.guild.me.displayHexColor !== "#000000"
+                      ? message.guild.me.displayHexColor
+                      : 0xffffff
+                  }`
+                ),
+            });
+          } else if (
+            await message.channel.awaitMessages(
+              (answer) =>
+                !item.incorrect_answers.includes(answer.content.toLowerCase()),
+              options
+            )
+          ) {
+            return message.channel.send({
+              embed: new Discord.RichEmbed()
+                .setAuthor(
+                  `Wrong Answer! ${winnerMessage.author.tag}`,
+                  winnerMessage.author.displayAvatarURL
+                )
+                .addField(`Correct Answer: \`${item.correct_answer}\``)
+                .setFooter(`Question: ${item.question}`)
+                .setColor(
+                  `${
+                    message.guild.me.displayHexColor !== "#000000"
+                      ? message.guild.me.displayHexColor
+                      : 0xffffff
+                  }`
+                ),
+            });
+          }
+        } catch (err) {
+          console.log(err);
         }
       });
   } catch (err) {
