@@ -109,7 +109,7 @@ module.exports.run = async (bot, message, args) => {
         console.log(err)
         if (
           await message.channel.awaitMessages(
-            (answer) => !item.incorrect_answers.includes(answer.content.toLowerCase()),
+            (answer) => !item.correct_answer.includes(answer.content.toLowerCase()),
             options
           )
         )
