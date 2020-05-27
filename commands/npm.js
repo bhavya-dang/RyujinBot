@@ -4,7 +4,12 @@
         require('moment-duration-format');
         module.exports.run = async (bot, message, args) => {
 
-        if (args.length === 0) return message.channel.send('You must supply a search term.');
+        if (args.length === 0) return message.channel.send({
+                embed: new Discord.RichEmbed()
+                .setTitle("**Error** - Missing parameters!")
+                .addField("Usage", "`r@npm <query>`")
+                .setTimestamp(moment.utc().format())
+        });
         const query = args.join(' ');
         try {
         const { body } = await snek.get(`https://registry.npmjs.com/${query.toLowerCase()}`);
