@@ -61,7 +61,7 @@ const moment = require("moment");
 module.exports.run = async (bot, message, args) => {
   const options = {
     max: 1,
-    time: 300000,
+    time: 30000,
     errors: ["time"],
   };
   try {
@@ -78,6 +78,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#69c")
         .setTimestamp(moment.utc().format())
         .addField("Difficulty", item.difficulty, true)
+        .addField("Time Provided:", options.time, true)
         .addField("Type", item.type, true)
         .addField("Question:", item.question)
         .setFooter("Powered by Open Trivia DB API.");
@@ -96,7 +97,7 @@ module.exports.run = async (bot, message, args) => {
               winnerMessage.author.displayAvatarURL
             )
             .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-            .setFooter(`Question: ${item.question.replace("&quot;", '"')}`)
+            .setFooter(`Question: ${item.question.replace(/&quot;/g, '"')}`)
             .setColor(
               `${
                 message.guild.me.displayHexColor !== "#000000"
