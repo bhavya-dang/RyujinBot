@@ -67,7 +67,7 @@ module.exports.run = async (bot, message, args) => {
   try {
     fetch.get(
       "https://opentdb.com/api.php?amount=50&token=892edf891781a29082ccc990539e5fe880a9a2ae66a548e440cdb864fd7e2e3d"
-    ).then(d => {    
+    ).then(async d => {    
 
       const item = d.results[Math.floor(Math.random() * quiz.length)];
       const questionEmbed = new Discord.RichEmbed()
