@@ -93,6 +93,7 @@ module.exports.run = async (bot, message, args) => {
 
         // const choices = item.incorrect_answers.push(Math.floor(Math.random() * item.incorrect_answers.length), 0, item.correct_answer);
         item.incorrect_answers.push(item.correct_answer);
+        const arr = item.incorrect_answers;
         console.log(shuffle(item.incorrect_answers));
         const questionEmbed = new Discord.RichEmbed()
           .setTitle(`**Category: ${item.category}**`)
@@ -115,7 +116,7 @@ module.exports.run = async (bot, message, args) => {
         await message.channel.send(questionEmbed).then(() => {
           message.channel
             .awaitMessages((a) =>
-              item.incorrect_answers.includes(a.content.toLowerCase(), options)
+              arr.includes(a.content.toLowerCase(), options)
             )
             .then((collected) => {
               const winnerMessage = collected.first();
