@@ -72,6 +72,11 @@ module.exports.run = async (bot, message, args) => {
     .then(async d => {    
       console.log(d.results);
       const item = d.results[Math.floor(Math.random() * d.results.length)];
+      Array.prototype.insert = (index,answer) => {
+        this.splice(index, 0, answer)
+        return this
+      }
+      const choices = item.incorrect_answers.insert(Math.floor(Math.random() * item.incorrect_answers.length) + 1, 0, item.correct_answer);
       const questionEmbed = new Discord.RichEmbed()
         .setTitle(`**Category: ${item.category}**`)
         .setURL("https://opentdb.com/api_config.php")
@@ -81,12 +86,13 @@ module.exports.run = async (bot, message, args) => {
         .addField("Time Provided:", `${options.time.Math.floor((ms/1000) % 60)}`, true)
         .addField("Type", item.type, true)
         .addField("Question:", item.question)
+        .addField("Choices: ", choice.toString())
         .setFooter("Powered by Open Trivia DB API.");
       await message.channel.send(questionEmbed);
   
       try {
         const collected = await message.channel.awaitMessages(
-          (answer) => item.correct_answer.includes(answer.content.toLowerCase()),
+          (answer) => choices.includes(answer.content.toLowerCase()),
           options
         );
         const winnerMessage = collected.first();
@@ -110,7 +116,7 @@ module.exports.run = async (bot, message, args) => {
         console.log(err)
         if (
           await message.channel.awaitMessages(
-            (answer) => !item.incorrect_answers.includes(answer.content.toLowerCase()),
+            (answer) => !choices.includes(answer.content.toLowerCase()),
             options
           )
         )
