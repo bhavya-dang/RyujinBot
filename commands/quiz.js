@@ -69,14 +69,11 @@ module.exports.run = async (bot, message, args) => {
       "https://opentdb.com/api.php?amount=50&token=892edf891781a29082ccc990539e5fe880a9a2ae66a548e440cdb864fd7e2e3d"
     )
     .then(async res => res.json())
-    .then(async d => {    
-      console.log(d.results);
+    .then(async d => {    ;
       const item = d.results[Math.floor(Math.random() * d.results.length)];
-      Array.prototype.insert = (index,answer) => {
-        this.splice(index, 0, answer)
-        return this
-      }
-      const choices = item.incorrect_answers.insert(Math.floor(Math.random() * item.incorrect_answers.length) + 1, 0, item.correct_answer);
+      console.log(item)
+      
+      const choices = item.incorrect_answers.push(Math.floor(Math.random() * item.incorrect_answers.length) + 1, 0, item.correct_answer);
       const questionEmbed = new Discord.RichEmbed()
         .setTitle(`**Category: ${item.category}**`)
         .setURL("https://opentdb.com/api_config.php")
