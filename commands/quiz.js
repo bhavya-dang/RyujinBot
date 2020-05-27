@@ -115,7 +115,7 @@ module.exports.run = async (bot, message, args) => {
         await message.channel.send(questionEmbed).then(() => {
           message.channel
             .awaitMessages((a) =>
-              item.incorrect_answers.some(a.content.toLowerCase(), options)
+              item.incorrect_answers.includes(a.content.toLowerCase(), options)
             )
             .then((collected) => {
               const winnerMessage = collected.first();
