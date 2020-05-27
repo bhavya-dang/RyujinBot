@@ -80,7 +80,7 @@ module.exports.run = async (bot, message, args) => {
         .addField("Difficulty", item.difficulty, true)
         .addField("Type", item.type, true)
         .addField("Question:", item.question)
-        .setFooter("Questions supplied by Open Trivia DB API.");
+        .setFooter("Powered by Open Trivia DB API.");
       await message.channel.send(questionEmbed);
   
       try {
@@ -105,10 +105,11 @@ module.exports.run = async (bot, message, args) => {
               }`
             ),
         });
-      } catch (_) {
+      } catch (err) {
+        console.log(err)
         if (
           await message.channel.awaitMessages(
-            (answer) => !item.a.includes(answer.content.toLowerCase()),
+            (answer) => !item.incorrect_answers.includes(answer.content.toLowerCase()),
             options
           )
         )
