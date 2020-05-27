@@ -59,6 +59,24 @@ const Discord = require("discord.js");
 const fetch = require("node-fetch");
 const moment = require("moment");
 module.exports.run = async (bot, message, args) => {
+  function shuffle(array) {
+    var ctr = array.length,
+      temp,
+      index;
+
+    // While there are elements in the array
+    while (ctr > 0) {
+      // Pick a random index
+      index = Math.floor(Math.random() * ctr);
+      // Decrease ctr by 1
+      ctr--;
+      // And swap the last element with it
+      temp = array[ctr];
+      array[ctr] = array[index];
+      array[index] = temp;
+    }
+    return array;
+  }
   const options = {
     max: 1,
     time: 30000,
@@ -68,63 +86,44 @@ module.exports.run = async (bot, message, args) => {
     fetch(
       "https://opentdb.com/api.php?amount=50&token=892edf891781a29082ccc990539e5fe880a9a2ae66a548e440cdb864fd7e2e3d"
     )
-    .then(async res => res.json())
-    .then(async d => {    ;
-      const item = d.results[Math.floor(Math.random() * d.results.length)];
-      console.log(item)
-      
-      const choices = item.incorrect_answers.push(Math.floor(Math.random() * item.incorrect_answers.length) + 1, 0, item.correct_answer);
-      const questionEmbed = new Discord.RichEmbed()
-        .setTitle(`**Category: ${item.category}**`)
-        .setURL("https://opentdb.com/api_config.php")
-        .setColor("#69c")
-        .setTimestamp(moment.utc().format())
-        .addField("Difficulty", item.difficulty, true)
-        .addField("Time Provided:", `${options.time.Math.floor((ms/1000) % 60)}`, true)
-        .addField("Type", item.type, true)
-        .addField("Question:", item.question)
-        .addField("Choices: ", choice.toString())
-        .setFooter("Powered by Open Trivia DB API.");
-      await message.channel.send(questionEmbed);
-  
-      try {
-        const collected = await message.channel.awaitMessages(
-          (answer) => choices.includes(answer.content.toLowerCase()),
-          options
-        );
-        const winnerMessage = collected.first();
-        return message.channel.send({
-          embed: new Discord.RichEmbed()
-            .setAuthor(
-              `Winner: ${winnerMessage.author.tag}`,
-              winnerMessage.author.displayAvatarURL
-            )
-            .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-            .setFooter(`Question: ${item.question.replace(/&quot;/g, '"')}`)
-            .setColor(
-              `${
-                message.guild.me.displayHexColor !== "#000000"
-                  ? message.guild.me.displayHexColor
-                  : 0xffffff
-              }`
-            ),
-        });
-      } catch (err) {
-        console.log(err)
-        if (
-          await message.channel.awaitMessages(
-            (answer) => !choices.includes(answer.content.toLowerCase()),
-            options
+      .then(async (res) => res.json())
+      .then(async (d) => {
+        const item = d.results[Math.floor(Math.random() * d.results.length)];
+        console.log(item);
+
+        // const choices = item.incorrect_answers.push(Math.floor(Math.random() * item.incorrect_answers.length), 0, item.correct_answer);
+        const choices = item.incorrect_answers.push(item.correct_answer);
+        const questionEmbed = new Discord.RichEmbed()
+          .setTitle(`**Category: ${item.category}**`)
+          .setURL("https://opentdb.com/api_config.php")
+          .setColor("#69c")
+          .setTimestamp(moment.utc().format())
+          .addField("Difficulty", item.difficulty, true)
+          .addField(
+            "Time Provided:",
+            `${options.time.Math.floor((ms / 1000) % 60)}s`,
+            true
           )
-        )
+          .addField("Type", item.type, true)
+          .addField("Question:", item.question)
+          .addField("Choices: ", shuffle(choices).toString())
+          .setFooter("Powered by Open Trivia DB API.");
+        await message.channel.send(questionEmbed);
+
+        try {
+          const collected = await message.channel.awaitMessages(
+            (answer) => choices.includes(answer.content.toLowerCase()),
+            options
+          );
+          const winnerMessage = collected.first();
           return message.channel.send({
             embed: new Discord.RichEmbed()
               .setAuthor(
-                `Wrong Answer! ${winnerMessage.author.tag}`,
+                `Winner: ${winnerMessage.author.tag}`,
                 winnerMessage.author.displayAvatarURL
               )
-              .addField(`Correct Answer: \`${item.correct_answer}\``)
-              .setFooter(`Question: ${item.question}`)
+              .setTitle(`Correct Answer: \`${item.correct_answer}\``)
+              .setFooter(`Question: ${item.question.replace(/&quot;/g, '"')}`)
               .setColor(
                 `${
                   message.guild.me.displayHexColor !== "#000000"
@@ -133,12 +132,35 @@ module.exports.run = async (bot, message, args) => {
                 }`
               ),
           });
-      }
-    }) 
-    }catch (err) {
-      console.log(err)
-    }
-
+        } catch (err) {
+          console.log(err);
+          if (
+            await message.channel.awaitMessages(
+              (answer) => !choices.includes(answer.content.toLowerCase()),
+              options
+            )
+          )
+            return message.channel.send({
+              embed: new Discord.RichEmbed()
+                .setAuthor(
+                  `Wrong Answer! ${winnerMessage.author.tag}`,
+                  winnerMessage.author.displayAvatarURL
+                )
+                .addField(`Correct Answer: \`${item.correct_answer}\``)
+                .setFooter(`Question: ${item.question}`)
+                .setColor(
+                  `${
+                    message.guild.me.displayHexColor !== "#000000"
+                      ? message.guild.me.displayHexColor
+                      : 0xffffff
+                  }`
+                ),
+            });
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
 };
 module.exports.help = {
   name: "quiz",
