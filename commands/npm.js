@@ -1,5 +1,5 @@
         const Discord = require('discord.js')
-        const snek = require('snekfetch');
+        const snek = require('node-superfetch');
         const moment = require('moment');
         require('moment-duration-format');
         module.exports.run = async (bot, message, args) => {
