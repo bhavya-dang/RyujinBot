@@ -101,7 +101,7 @@ module.exports.run = async (bot, message, args) => {
           .addField("Difficulty", item.difficulty, true)
           .addField(
             "Time Provided:",
-            `${options.time.Math.floor((ms / 1000) % 60)}s`,
+            `${Math.floor((options.time / 1000) % 60)}s`,
             true
           )
           .addField("Type", item.type, true)
