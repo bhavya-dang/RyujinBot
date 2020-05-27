@@ -96,7 +96,7 @@ module.exports.run = async (bot, message, args) => {
               winnerMessage.author.displayAvatarURL
             )
             .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-            .setFooter(`Question: ${item.question}`)
+            .setFooter(`Question: ${item.question.replace("&quot;", '"')}`)
             .setColor(
               `${
                 message.guild.me.displayHexColor !== "#000000"
@@ -109,7 +109,7 @@ module.exports.run = async (bot, message, args) => {
         console.log(err)
         if (
           await message.channel.awaitMessages(
-            (answer) => !item.correct_answer.includes(answer.content.toLowerCase()),
+            (answer) => !item.incorrect_answers.includes(answer.content.toLowerCase()),
             options
           )
         )
