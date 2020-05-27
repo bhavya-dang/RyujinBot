@@ -122,7 +122,8 @@ module.exports.run = async (bot, message, args) => {
         await message.channel.send(questionEmbed).then(() => {
           message.channel
             .awaitMessages((a) => filter, options)
-            .then((collected) => {
+            .then(collected => console.log(collected))
+            .catch((collected) => {
               const winnerMessage = collected.first();
               return message.channel.send({
                 embed: new Discord.RichEmbed()
@@ -143,24 +144,24 @@ module.exports.run = async (bot, message, args) => {
                   ),
               });
             })
-            .catch((collected) => {
-              return message.channel.send({
-                embed: new Discord.RichEmbed()
-                  .setAuthor(
-                    `Wrong Answer! ${collected.first().author.tag}`,
-                    collected.first().author.displayAvatarURL
-                  )
-                  .addField(`Correct Answer: \`${item.correct_answer}\``)
-                  .setFooter(`Question: ${item.question}`)
-                  .setColor(
-                    `${
-                      message.guild.me.displayHexColor !== "#000000"
-                        ? message.guild.me.displayHexColor
-                        : 0xffffff
-                    }`
-                  ),
-              });
-            });
+            // .catch((collected) => {
+            //   return message.channel.send({
+            //     embed: new Discord.RichEmbed()
+            //       .setAuthor(
+            //         `Wrong Answer! ${collected.first().author.tag}`,
+            //         collected.first().author.displayAvatarURL
+            //       )
+            //       .addField(`Correct Answer: \`${item.correct_answer}\``)
+            //       .setFooter(`Question: ${item.question}`)
+            //       .setColor(
+            //         `${
+            //           message.guild.me.displayHexColor !== "#000000"
+            //             ? message.guild.me.displayHexColor
+            //             : 0xffffff
+            //         }`
+            //       ),
+            //   });
+            // });
         });
 
         //   try {
