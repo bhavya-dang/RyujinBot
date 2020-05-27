@@ -122,28 +122,29 @@ module.exports.run = async (bot, message, args) => {
         await message.channel.send(questionEmbed).then(() => {
           message.channel
             .awaitMessages((a) => filter, options)
-            .then(collected => console.log(collected))
-            .catch((collected) => {
-              const winnerMessage = collected.first();
-              return message.channel.send({
-                embed: new Discord.RichEmbed()
-                  .setAuthor(
-                    `Winner: ${winnerMessage.author.tag}`,
-                    winnerMessage.author.displayAvatarURL
-                  )
-                  .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-                  .setFooter(
-                    `Question: ${item.question.replace(/(?:\&quot\;)/g, '"')}`
-                  )
-                  .setColor(
-                    `${
-                      message.guild.me.displayHexColor !== "#000000"
-                        ? message.guild.me.displayHexColor
-                        : 0xffffff
-                    }`
-                  ),
-              });
-            })
+            .then(collected =>    {      
+            const winnerMessage = collected.first();
+            return message.channel.send({
+              embed: new Discord.RichEmbed()
+                .setAuthor(
+                  `Winner: ${winnerMessage.author.tag}`,
+                  winnerMessage.author.displayAvatarURL
+                )
+                .setTitle(`Correct Answer: \`${item.correct_answer}\``)
+                .setFooter(
+                  `Question: ${item.question.replace(/(?:\&quot\;)/g, '"')}`
+                )
+                .setColor(
+                  `${
+                    message.guild.me.displayHexColor !== "#000000"
+                      ? message.guild.me.displayHexColor
+                      : 0xffffff
+                  }`
+                ),
+            });
+          })
+            .catch((err) => console.log(err))
+        });
             // .catch((collected) => {
             //   return message.channel.send({
             //     embed: new Discord.RichEmbed()
@@ -161,8 +162,6 @@ module.exports.run = async (bot, message, args) => {
             //         }`
             //       ),
             //   });
-            // });
-        });
 
         //   try {
 
