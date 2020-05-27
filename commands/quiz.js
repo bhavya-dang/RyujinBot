@@ -71,7 +71,7 @@ module.exports.run = async (bot, message, args) => {
     .then(async res => res.json())
     .then(async d => {    
       console.log(d.results);
-      const item = d.results[Math.floor(Math.random() * 50)];
+      const item = d.results[Math.floor(Math.random() * d.results.length)];
       const questionEmbed = new Discord.RichEmbed()
         .setTitle(`**Category: ${item.category}**`)
         .setURL("https://opentdb.com/api_config.php")
