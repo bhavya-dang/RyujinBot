@@ -78,7 +78,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#69c")
         .setTimestamp(moment.utc().format())
         .addField("Difficulty", item.difficulty, true)
-        .addField("Time Provided:", options.time, true)
+        .addField("Time Provided:", `${options.time.Math.floor((ms/1000) % 60)}`, true)
         .addField("Type", item.type, true)
         .addField("Question:", item.question)
         .setFooter("Powered by Open Trivia DB API.");
@@ -110,7 +110,7 @@ module.exports.run = async (bot, message, args) => {
         console.log(err)
         if (
           await message.channel.awaitMessages(
-            (answer) => !item.correct_answer.includes(answer.content.toLowerCase()),
+            (answer) => !item.incorrect_answers.includes(answer.content.toLowerCase()),
             options
           )
         )
