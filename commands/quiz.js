@@ -86,7 +86,7 @@ module.exports.run = async (bot, message, args) => {
   const token = fetch("https://opentdb.com/api_token.php?command=request")
   .then(res => res.json())
   .then(token => {return token.token}) 
-
+  console.log(token);
   try {
     fetch(
       `https://opentdb.com/api.php?amount=50&token=${token}`
