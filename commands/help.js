@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
   }else if(args[0] === "fun"){
   
   const funEmbed = new Discord.RichEmbed()
-  .setAuthor("Fun Commands", bot.user.displayAvatarURL)
+  .setAuthor("⚜ Fun Commands", bot.user.displayAvatarURL)
   .setColor("#F44336")
   .setFooter(bot.Footer)
   .addField("r@8ball <question>", "Ask the magical 8ball a question!")
@@ -31,7 +31,7 @@ module.exports.run = async (bot, message, args) => {
   }else if(args[0] === "nsfw"){
   
   const nsfwEmbed = new Discord.RichEmbed()
-  .setAuthor("NSFW Commands", bot.user.displayAvatarURL)
+  .setAuthor("🔞 NSFW Commands", bot.user.displayAvatarURL)
   .setColor("#F44336")
   .addField("r@ecchi", "Get an ecchi image!")
   .addField("r@hentai", "Get an hentai image!")
@@ -42,7 +42,7 @@ module.exports.run = async (bot, message, args) => {
   }else if(args[0] === "anime"){
   
   const animeEmbed = new Discord.RichEmbed()
-  .setAuthor("Anime Commands", bot.user.displayAvatarURL)
+  .setAuthor("㊙ Anime Commands", bot.user.displayAvatarURL)
   .setColor("#F44336")
   .addField("r@animeme", "Get an anime meme.")
   .addField("r@anime <query>", "Fetch info about any anime!")
@@ -52,7 +52,7 @@ module.exports.run = async (bot, message, args) => {
   }else if(args[0] === "music"){
   
   const musicEmbed = new Discord.RichEmbed()
-  .setAuthor("Music Commands", bot.user.displayAvatarURL)
+  .setAuthor("🎶 Music Commands", bot.user.displayAvatarURL)
   .setColor("#F44336")
   .addField("r@play/p <query>", "Play music.")
   .addField("r@pause", "Pause music.")
@@ -66,11 +66,14 @@ module.exports.run = async (bot, message, args) => {
   }else if(args[0] === "utility"){
   
   const utilEmbed = new Discord.RichEmbed()
-  .setAuthor("Utility Commands", bot.user.displayAvatarURL)
+  .setAuthor("⚙ Utility Commands", bot.user.displayAvatarURL)
   .setColor("#F44336")
   .addField("r@avatar <name>", "Get avatar of a user.")
+  .addField("r@imgur <query>", "Search imgur for images!")
+  .addField("r@unsplash <query>", "Search unsplash for images!")
+  .addField("r@hb <extension> <code>", "Generate a hastebin code link.")
   .addField("r@ow find <username>", "Get CSGO information about a user.")
-  .addField("r@ <search query>", "Search about a npm package.")
+  .addField("r@npm <search query>", "Search about a npm package.")
   .addField("r@ping", "Get my ping!")
   .addField("r@vote", "Do a poll!")
   .setFooter(bot.Footer, bot.user.displayAvatarURL);
@@ -78,7 +81,7 @@ module.exports.run = async (bot, message, args) => {
   }else if(args[0] === "statistics"){
   
   const statsEmbed = new Discord.RichEmbed()
-  .setAuthor("Statistics Commands", bot.user.displayAvatarURL)
+  .setAuthor("📈 Statistics Commands", bot.user.displayAvatarURL)
   .setColor("#F44336")
   .addField("r@stats", "Get bot stats.")
   .addField("r@userstats", "Get user stats.")

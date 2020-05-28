@@ -1,22 +1,33 @@
-const hastebin = require('hastebin-gen-2');
-const Discord = require('discord.js');
+const hastebin = require("hastebin-gen");
+const Discord = require("discord.js");
+const moment = require("moment");
 
 module.exports.run = async (bot, message, args) => {
-let code = args.join(" ")
-try {
-  hastebin(code, "js").then(r => {
-    let embed = new Discord.RichEmbed()
-    //.setTitle("Hastebin Generator")
-    .setAuthor(`${bot.user.username} Hastebin Generator`, bot.user.displayAvatarURL)
-    .setDescription(`**Your code was sent to Hastebin!**\n\nHere is the link: [\`${r}\`](${r})`)
-    .setTimestamp()
-    .setColor("BLUE")
-    message.channel.send(embed); 
-})
-}catch(e){
-message.channel.send("Encountered an error with the api. Please try again later.")
-}
-}
+  const ext = args.slice(0, 1);
+  let code = args.slice(1).join(" ");
+  try {
+    hastebin(code, ext).then((r) => {
+      let embed = new Discord.RichEmbed()
+        .setTitle("**Hastebin Generator**")
+        .setDescription(
+          `**Your code was sent to Hastebin!**\n\nHere is the link: [\`${r}\`](${r})`
+        )
+        .setTimestamp(moment.utc().format())
+        .setColor("BLUE");
+      message.channel.send(embed);
+    });
+  } catch (e) {
+    message.channel.send({
+      embed: new Discord.RichEmbed()
+        .setTitle("**ERROR!**")
+        .addField("Usage:", "`p@unsplash <query>`")
+        .setFooter(
+          "There might have been some error with the api. Please try again later."
+        )
+        .setTimestamp(moment.utc().format()),
+    });
+  }
+};
 module.exports.help = {
-name: "hb"
-}
+  name: "hb",
+};
