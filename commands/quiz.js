@@ -82,102 +82,79 @@ module.exports.run = async (bot, message, args) => {
     time: 30000,
     errors: ["time"],
   };
+
+  const token = fetch("https://opentdb.com/api_token.php?command=request")
+  .then(res => res.json())
+  .then(token => {return token.token}) 
+
   try {
     fetch(
-      "https://opentdb.com/api.php?amount=50&token=892edf891781a29082ccc990539e5fe880a9a2ae66a548e440cdb864fd7e2e3d"
+      `https://opentdb.com/api.php?amount=50&token=${token}`
     )
       .then(async (res) => res.json())
       .then(async (d) => {
         const item = d.results[Math.floor(Math.random() * d.results.length)];
         console.log(item);
+        let difficultyQuery = args[0];
 
-        item.incorrect_answers.push(item.correct_answer);
-        const arr = item.incorrect_answers;
-        console.log(shuffle(item.incorrect_answers));
-        const filter = (answer) => answer.content.toLowerCase() === item.correct_answer.toLowerCase();
+        function sendData(){
+          item.incorrect_answers.push(item.correct_answer);
+          const arr = item.incorrect_answers;
+          console.log(shuffle(item.incorrect_answers));
+          const filter = (answer) => answer.content.toLowerCase() === item.correct_answer.toLowerCase();
+  
+          const questionEmbed = new Discord.RichEmbed()
+            .setTitle(`**Category: ${item.category}**`)
+            .setColor("#69c")
+            .setTimestamp(moment.utc().format())
+            .addField("Difficulty", item.difficulty, true)
+            .addField(
+              "Time Provided:",
+              `${Math.floor((options.time / 1000) % 60)}s`,
+              true
+            )
+            .addField("Type", item.type, true)
+            .addField("Question:", `${item.question.replace(/(?:\&quot\;)/g, '"')}`)
+            .addField(
+              "Choices: ",
+              `${shuffle(item.incorrect_answers).toString().replace(",", ", ")}`
+            )
+            .setFooter("Powered by Open Trivia DB API.");
+          await message.channel.send(questionEmbed).then(() => {
+            message.channel
+              .awaitMessages(filter, options)
+              .then(collected =>    {      
+              const winnerMessage = collected.first();
+              return message.channel.send({
+                embed: new Discord.RichEmbed()
+                  .setAuthor(
+                    `Winner: ${winnerMessage.author.tag}`,
+                    winnerMessage.author.displayAvatarURL
+                  )
+                  .setTitle(`Correct Answer: \`${item.correct_answer}\``)
+                  .setFooter(
+                    `Question: ${item.question.replace(/(?:\&quot\;)/g, '"')}`
+                  )
+                  .setColor(
+                    `${
+                      message.guild.me.displayHexColor !== "#000000"
+                        ? message.guild.me.displayHexColor
+                        : 0xffffff
+                    }`
+                  ),
+              });
+            })
+              .catch((err) => console.log(err))
+          });
+        }
 
-
-        const questionEmbed = new Discord.RichEmbed()
-          .setTitle(`**Category: ${item.category}**`)
-          .setURL("https://opentdb.com/api_config.php")
-          .setColor("#69c")
-          .setTimestamp(moment.utc().format())
-          .addField("Difficulty", item.difficulty, true)
-          .addField(
-            "Time Provided:",
-            `${Math.floor((options.time / 1000) % 60)}s`,
-            true
-          )
-          .addField("Type", item.type, true)
-          .addField("Question:", `${item.question.replace(/(?:\&quot\;)/g, '"')}`)
-          .addField(
-            "Choices: ",
-            `${shuffle(item.incorrect_answers).toString().replace(",", ", ")}`
-          )
-          .setFooter("Powered by Open Trivia DB API.");
-        await message.channel.send(questionEmbed).then(() => {
-          message.channel
-            .awaitMessages(filter, options)
-            .then(collected =>    {      
-            const winnerMessage = collected.first();
-            return message.channel.send({
-              embed: new Discord.RichEmbed()
-                .setAuthor(
-                  `Winner: ${winnerMessage.author.tag}`,
-                  winnerMessage.author.displayAvatarURL
-                )
-                .setTitle(`Correct Answer: \`${item.correct_answer}\``)
-                .setFooter(
-                  `Question: ${item.question.replace(/(?:\&quot\;)/g, '"')}`
-                )
-                .setColor(
-                  `${
-                    message.guild.me.displayHexColor !== "#000000"
-                      ? message.guild.me.displayHexColor
-                      : 0xffffff
-                  }`
-                ),
-            });
-          })
-            .catch((err) => console.log(err))
-        });
-            // .catch((collected) => {
-            //   return message.channel.send({
-            //     embed: new Discord.RichEmbed()
-            //       .setAuthor(
-            //         `Wrong Answer! ${collected.first().author.tag}`,
-            //         collected.first().author.displayAvatarURL
-            //       )
-            //       .addField(`Correct Answer: \`${item.correct_answer}\``)
-            //       .setFooter(`Question: ${item.question}`)
-            //       .setColor(
-            //         `${
-            //           message.guild.me.displayHexColor !== "#000000"
-            //             ? message.guild.me.displayHexColor
-            //             : 0xffffff
-            //         }`
-            //       ),
-            //   });
-
-        //   try {
-
-        //       await message.channel.awaitMessages(
-        //         (answer) =>
-        //           item.incorrect_answers.includes(answer.content.toLowerCase()),
-        //         options
-        //       )
-
-        //     }
-        //       await message.channel.awaitMessages(
-        //         (answer) =>
-        //           !item.incorrect_answers.includes(answer.content.toLowerCase()),
-        //         options)
-
-        //     }
-        //   } catch (err) {
-        //     console.log(err);
-        //   }
-        // });
+        if(difficultyQuery.toLowerCase() === "random" || !difficultyQuery){
+          sendData()
+        } else {
+        item.filter(d => d.difficulty.toLowerCase() === difficultyQuery.toLowerCase())
+        sendData()
+        }
+           
       });
   } catch (err) {
     console.log(err);
