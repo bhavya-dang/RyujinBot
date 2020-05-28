@@ -6,7 +6,7 @@ module.exports.run = async (bot, message, args) => {
   const ext = args.slice(0, 1);
   let code = args.slice(1).join(" ");
   try {
-    hastebin(code, ext).then((r) => {
+    hastebin(code, {extension: ext}).then((r) => {
       let embed = new Discord.RichEmbed()
         .setTitle("**Hastebin Generator**")
         .setDescription(

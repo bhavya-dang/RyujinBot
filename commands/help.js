@@ -69,7 +69,6 @@ module.exports.run = async (bot, message, args) => {
   .setAuthor("⚙ Utility Commands", bot.user.displayAvatarURL)
   .setColor("#F44336")
   .addField("r@avatar <name>", "Get avatar of a user.")
-  .addField("r@imgur <query>", "Search imgur for images!")
   .addField("r@unsplash <query>", "Search unsplash for images!")
   .addField("r@hb <extension> <code>", "Generate a hastebin code link.")
   .addField("r@ow find <username>", "Get CSGO information about a user.")
