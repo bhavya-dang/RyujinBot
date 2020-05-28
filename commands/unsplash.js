@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args) => {
         .addField("**Likes**", data.likes, true)
         .addField(
           "**Downloads**",
-          data.downloads.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
+          data.downloads.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
           true
         )
         .addField(
