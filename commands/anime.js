@@ -22,13 +22,13 @@ module.exports.run = async (bot, message, args) => {
           .setColor("#ff1453")
           .setThumbnail(data.picture)
           .addField("English Title", data.englishTitle, true)
-          .addField("Genres", data.genres.toString())
+          .addField("Genres", data.genres.toString().replace(",", " | "))
           .addField("Episodes", data.episodes, true)
           .addField("Aired", data.aired, true)
           .addField("Status", data.status, true)
           .addField("Score", data.score, true)
           .addField("Rank", data.ranked, true)
-          .addField("Studio(s)", data.studios.toString(), true)
+          .addField("Studio(s)", data.studios.toString().replace(",", ", "), true)
           .setDescription(`**Synopsis:**\n${data.synopsis.slice(0, -25)}`);
 
         message.channel.send(embed);

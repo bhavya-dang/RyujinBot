@@ -59,6 +59,7 @@ const Discord = require("discord.js");
 const fetch = require("node-fetch");
 const moment = require("moment");
 module.exports.run = async (bot, message, args) => {
+  let difficultyQuery = args[0];
   function shuffle(array) {
     var ctr = array.length,
       temp,
@@ -94,10 +95,10 @@ module.exports.run = async (bot, message, args) => {
       .then(async (res) => res.json())
       .then(async (d) => {
         const item = d.results[Math.floor(Math.random() * d.results.length)];
-        console.log(item);
-        let difficultyQuery = args[0];
-
         async function sendData(){
+          
+          console.log(item);
+          
           item.incorrect_answers.push(item.correct_answer);
           const arr = item.incorrect_answers;
           console.log(shuffle(item.incorrect_answers));
