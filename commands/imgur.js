@@ -25,6 +25,7 @@ module.exports.run = async (bot, message, args) => {
     fetch(`https://api.imgur.com/3/gallery/search/?q=${query}`)
       .then((res) => res.json())
       .then((b) => {
+        console.log(b)
         // .set({ Authorization: `Client-ID ${process.env.IMGUR}` });
         const images = b.data.filter(
           (image) => image.images && (message.channel.nsfw ? true : !image.nsfw)
