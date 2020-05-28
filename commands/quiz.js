@@ -83,13 +83,12 @@ module.exports.run = async (bot, message, args) => {
     errors: ["time"],
   };
 
-  const token = fetch("https://opentdb.com/api_token.php?command=request")
+fetch("https://opentdb.com/api_token.php?command=request")
   .then(res => res.json())
-  .then(token => {return token.token}) 
-  console.log(token);
-  try {
+  .then(token =>  { 
+    try {
     fetch(
-      `https://opentdb.com/api.php?amount=50&token=${token}`
+      `https://opentdb.com/api.php?amount=50&token=${token.token}`
     )
       .then(async (res) => res.json())
       .then(async (d) => {
@@ -145,47 +144,12 @@ module.exports.run = async (bot, message, args) => {
           })
             .catch((err) => console.log(err))
         });
-            // .catch((collected) => {
-            //   return message.channel.send({
-            //     embed: new Discord.RichEmbed()
-            //       .setAuthor(
-            //         `Wrong Answer! ${collected.first().author.tag}`,
-            //         collected.first().author.displayAvatarURL
-            //       )
-            //       .addField(`Correct Answer: \`${item.correct_answer}\``)
-            //       .setFooter(`Question: ${item.question}`)
-            //       .setColor(
-            //         `${
-            //           message.guild.me.displayHexColor !== "#000000"
-            //             ? message.guild.me.displayHexColor
-            //             : 0xffffff
-            //         }`
-            //       ),
-            //   });
-
-        //   try {
-
-        //       await message.channel.awaitMessages(
-        //         (answer) =>
-        //           item.incorrect_answers.includes(answer.content.toLowerCase()),
-        //         options
-        //       )
-
-        //     }
-        //       await message.channel.awaitMessages(
-        //         (answer) =>
-        //           !item.incorrect_answers.includes(answer.content.toLowerCase()),
-        //         options)
-
-        //     }
-        //   } catch (err) {
-        //     console.log(err);
-        //   }
-        // });
       });
   } catch (err) {
     console.log(err);
   }
+ })
+
 };
 module.exports.help = {
   name: "quiz",
