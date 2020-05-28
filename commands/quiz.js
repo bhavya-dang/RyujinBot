@@ -91,7 +91,6 @@ module.exports.run = async (bot, message, args) => {
         const item = d.results[Math.floor(Math.random() * d.results.length)];
         console.log(item);
 
-        // const choices = item.incorrect_answers.push(Math.floor(Math.random() * item.incorrect_answers.length), 0, item.correct_answer);
         item.incorrect_answers.push(item.correct_answer);
         const arr = item.incorrect_answers;
         console.log(shuffle(item.incorrect_answers));
@@ -110,10 +109,10 @@ module.exports.run = async (bot, message, args) => {
             true
           )
           .addField("Type", item.type, true)
-          .addField("Question:", item.question)
+          .addField("Question:", `${item.question.replace(/(?:\&quot\;)/g, '"')}`)
           .addField(
             "Choices: ",
-            `${shuffle(item.incorrect_answers).toString()}`
+            `${shuffle(item.incorrect_answers).toString().replace(",", ", ")}`
           )
           .setFooter("Powered by Open Trivia DB API.");
         await message.channel.send(questionEmbed).then(() => {
