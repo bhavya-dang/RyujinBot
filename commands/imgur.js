@@ -23,10 +23,11 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send(":underage: This is not an nsfw channel :underage:");
   } else {
     fetch(`https://api.imgur.com/3/gallery/search/?q=${query}`)
+      .set({ Authorization: `Client-ID ${process.env.IMGUR}` })
       .then((res) => res.json())
       .then((b) => {
-        console.log(b)
-        // .set({ Authorization: `Client-ID ${process.env.IMGUR}` });
+        console.log(b);
+         
         const images = b.data.filter(
           (image) => image.images && (message.channel.nsfw ? true : !image.nsfw)
         );
