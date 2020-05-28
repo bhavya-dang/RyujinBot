@@ -97,7 +97,7 @@ module.exports.run = async (bot, message, args) => {
         console.log(item);
         let difficultyQuery = args[0];
 
-        function sendData(){
+        async function sendData(){
           item.incorrect_answers.push(item.correct_answer);
           const arr = item.incorrect_answers;
           console.log(shuffle(item.incorrect_answers));
