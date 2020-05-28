@@ -92,7 +92,7 @@ fetch("https://opentdb.com/api_token.php?command=request")
                 embed: new Discord.RichEmbed()
                   .setAuthor(
                     "**TIMEOUT!!**",
-                    winnerMessage.author.displayAvatarURL
+                    message.author.displayAvatarURL
                   )
                   .setTitle(`Correct Answer: \`${item.correct_answer}\``)
                   .setFooter(
