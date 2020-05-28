@@ -25,8 +25,8 @@ module.exports.run = async (bot, message, args) => {
         .addField("**Description**", data.description === null ? "None" : data.description)
         .addField("**Username**", data.user.username, true)
         .addField("**Instagram Username**", data.user.instagram_username === null ? "None" : data.user.instagram_username, true)
-        .addField("**Likes**", data.likes, true)
-        .addField("**Views**", data.views, true)
+        .addField("**Likes**", data.likes.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","), true)
+        .addField("**Views**", data.views.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","), true)
         .addField(
           "**Downloads**",
           data.downloads.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
