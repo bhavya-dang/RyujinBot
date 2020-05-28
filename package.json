@@ -66,6 +66,7 @@
     "string-similarity": "^3.0.0",
     "superagent": "^5.1.0",
     "turndown": "^5.0.3",
+    "unsplash-js": "^6.0.0",
     "urban": "^0.3.2",
     "util": "^0.12.1",
     "weather-js": "^2.0.0",
