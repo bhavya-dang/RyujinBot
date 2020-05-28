@@ -33,6 +33,7 @@ module.exports.run = async (bot, message, args) => {
           `[\`Here!\`](${data.links.download})`,
           true
         );
+        message.channel.send(embed)
     });
 };
 module.exports.help = {
