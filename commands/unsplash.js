@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
     .then((data) => {
         console.log(data)
       const embed = new Discord.RichEmbed()
-        .setTitle("**Unsplash Image Search**")
+        .setTitle(`**Photo by ${data.user.username} on Unsplash**`)
         .setURL(`${data.links.download.slice(0, -8)}`)
         .setColor("#000")
         .setImage(data.urls.full)
