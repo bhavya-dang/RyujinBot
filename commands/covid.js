@@ -18,7 +18,6 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(moment.utc().format());
     message.channel.send(dEmbed);
   }
-  console.log(d);
   const embed = new Discord.RichEmbed()
     .setTitle("Global Covid-19 Data")
     .setURL(`https://www.worldometers.info/coronavirus/`)
@@ -26,10 +25,10 @@ module.exports.run = async (bot, message, args) => {
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQla-GbabU21gOd7omPLBcKZJBoiRA2V4zEhTpLx0zLSYhJSBXJ&usqp=CAU"
     )
     .addField("Country", d.country)
-    .addField("Confirmed", d.confirmed)
-    .addField("Recovered", d.recovered)
-    .addField("Deaths", d.deaths)
-    .addField("Active", d.active)
+    .addField("Confirmed", d.Confirmed)
+    .addField("Recovered", d.Recovered)
+    .addField("Deaths", d.Deaths)
+    .addField("Active", d.Active)
     .setFooter("Powered by Covid-19 API.")
     .setTimestamp(moment.utc().format())
     .setColor("#e71d34");
