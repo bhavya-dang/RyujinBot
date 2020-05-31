@@ -112,7 +112,7 @@ bot.on("guildMemberAdd", async member => {
     const memberRole = member.guild.roles.find(`name`, "Pariah");
 
     if(member.user.bot){ member.addRole(botRole); } else{ member.addRole(memberRole); };
-    let wChannel = bot.channel.get("714798050291482669");
+    let wChannel = bot.channels.get("714798050291482669");
     let joinEmbed = new Discord.RichEmbed()
 	  .setColor(0x9acd32)
 	  .setAuthor(`${member.displayName}, has joined ${member.guild.name}.`, member.user.displayAvatarURL)
@@ -127,7 +127,7 @@ bot.on("guildMemberAdd", async member => {
 });
 
 bot.on("guildMemberRemove", async member => {
-    let lChannel = bot.channel.get("714798050291482669");
+    let lChannel = bot.channels.get("714798050291482669");
 	  let leaveEmbed = new Discord.RichEmbed()
 	  .setColor(0xe26346)
 	  .setAuthor(`${member.displayName}, has left ${member.guild.name}.`, member.user.displayAvatarURL)
