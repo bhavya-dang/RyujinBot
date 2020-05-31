@@ -18,7 +18,7 @@ const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
 const prefix = "r@";
-bot.Footer = "Instagram: syn.xc";
+bot.Footer = `Developed by ${bot.users.get("414111663076147201")}`;
 bot.commands = new Discord.Collection();
 
 let cooldown = new Set();
@@ -63,6 +63,17 @@ bot.on("ready", () => {
 bot.on("message", async (message) => {
   if (message.author.bot) return undefined;
   if (!message.content.startsWith(prefix)) return;
+  if(message.content === "<@533902737398824961>"){
+    let dEmbed = new Discord.RichEmbed()
+    .setTitle("Ryu")
+    .setThumbnail(bot.user.displayAvatarURL)
+    .setDescription("A multi-utility/purpose with various commands! From games to jokes, from finding data online to listening music, Ryu has you covered! Just do r@help to get a list of its entire command system!")
+    .addField("Current Changelog", "Added github, chucknorris, random quotes and anime quotes commands. Music system under maintanence.", true)
+    .setColor("hsl(344, 100%, 54%)")
+    .setFooter(`Developed by ${bot.users.get("414111663076147201")}`)
+    .setTimestamp(moment.utc().format())
+    message.channel.send(dEmbed);
+  }
   if (message.channel.type === "dm") return;
   let args = message.content.slice(prefix.length).trim().split(" ");
   let cmd = args.shift().toLowerCase();
@@ -96,44 +107,41 @@ bot.on("message", async (message) => {
   );
 });
 
-// bot.on("guildMemberAdd", async member => {
-//     const botRole = member.guild.roles.find(`name`, "The Cardinals");
-//     const memberRole = member.guild.roles.find(`name`, "Pariah");
+bot.on("guildMemberAdd", async member => {
+    const botRole = member.guild.roles.find(`name`, "The Cardinals");
+    const memberRole = member.guild.roles.find(`name`, "Pariah");
 
-//     if(member.user.bot){ member.addRole(botRole); } else{ member.addRole(memberRole); };
+    if(member.user.bot){ member.addRole(botRole); } else{ member.addRole(memberRole); };
+    let wChannel = bot.channel.get("714798050291482669");
+    let joinEmbed = new Discord.RichEmbed()
+	  .setColor(0x9acd32)
+	  .setAuthor(`${member.displayName}, has joined ${member.guild.name}.`, member.user.displayAvatarURL)
+	  .setTimestamp()
+    .setFooter(`User Joined | ${member.guild.memberCount} Members`);
+    wChannel.send(joinEmbed);
+    let bots = member.guild.members.filter(mem => mem.user.bot).size;
+    let users = member.guild.members.filter(mem => !mem.user.bot).size;
 
-//     let joinEmbed = new Discord.RichEmbed()
-// 	  .setColor(0x9acd32)
-// 	  .setAuthor(`${member.displayName}, has joined ${member.guild.name}.`, member.user.displayAvatarURL)
-// 	  .setTimestamp()
-// 	  .setFooter(`User Joined | ${member.guild.memberCount} Members`);
+    member.guild.channels.get("714798050291482669").setName(`Member Count: ${users}`);
+    member.guild.channels.get("714798049888829453").setName(`Bot Count: ${bots}`);
+});
 
-//     // let image = await Manager.API.welcome("anime", member.user.bot, member.user.displayAvatarURL,          member.user.tag,`${member.guild.name}#${member.guild.memberCount}`);
-//     //  logChannel.send({ files: [{ attachment: image, name: 'welcome.jpg' }] });
+bot.on("guildMemberRemove", async member => {
+    let lChannel = bot.channel.get("714798050291482669");
+	  let leaveEmbed = new Discord.RichEmbed()
+	  .setColor(0xe26346)
+	  .setAuthor(`${member.displayName}, has left ${member.guild.name}.`, member.user.displayAvatarURL)
+	  .setTimestamp()
+	  .setFooter(`User Left | ${member.guild.memberCount} Members`)
+    leaveChannel.send(leaveEmbed);
 
-//     // let bots = member.guild.members.filter(mem => mem.user.bot).size;
-//     let users = member.guild.members.filter(mem => !mem.user.bot).size;
-//     // let members = member.guild.memberCount;
+    let bots = member.guild.members.filter(mem => mem.user.bot).size;
+    let users = member.guild.members.filter(mem => !mem.user.bot).size;
 
-//     member.guild.channels.get("709648535942856773").setName(`Member Count: ${users}`);
-// });
+    member.guild.channels.get("714798050291482669").setName(`Member Count: ${users}`);
+    member.guild.channels.get("714798049888829453").setName(`Bot Count: ${bots}`);
+});
 
-// bot.on("guildMemberRemove", async member => {
-// 	  let leaveEmbed = new Discord.RichEmbed()
-// 	  .setColor(0xe26346)
-// 	  .setAuthor(`${member.displayName}, has left ${member.guild.name}.`, member.user.displayAvatarURL)
-// 	  .setTimestamp()
-// 	  .setFooter(`User Left | ${member.guild.memberCount} Members`)
-
-//      //    let image = await Manager.API.goodbye("anime", member.user.bot, member.user.displayAvatarURL,          member.user.tag,`${member.guild.name}#${member.guild.memberCount}`);
-//      // logChannel.send({ files: [{ attachment: image, name: 'goodbye.jpg' }] });
-
-// //     let bots = member.guild.members.filter(mem => mem.user.bot).size;
-//     let users = member.guild.members.filter(mem => mem.user.bot).size;
-//     let members = member.guild.members.size;
-
-//     member.guild.channels.get("709648571410153532").setName(`Bot Count: ${users}`);
-// });
 
 // Ryujin Login:
 bot.login(process.env.TOKEN);
