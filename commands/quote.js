@@ -47,7 +47,7 @@ axios({
         .addField("Author", author)
         .setColor("#02c59b")
         .setTimestamp(moment.utc().format())
-        .setFooter("Powered Quotes RapidAPI.")
+        .setFooter("Powered by Quotes RapidAPI.")
       message.channel.send(qdEmbed);
 
     })
