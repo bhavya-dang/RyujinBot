@@ -72,7 +72,7 @@ module.exports.run = async (bot, message, args) => {
   const utilEmbed = new Discord.RichEmbed()
   .setTitle("⚙ Utility Commands")
   .setColor("#F44336")
-  .addField("r@covid", "Track Covid-19 data by Country.")
+  .addField("r@covid", "Track live Covid-19 data by Country.")
   .addField("r@unsplash <query>", "Search unsplash for images!")
   .addField("r@hb <extension> <code>", "Generate a hastebin code link.")
   .addField("r@ow find <username>", "Get CSGO information about a user.")

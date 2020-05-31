@@ -3,10 +3,10 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 module.exports.run = async (bot, message, args) => {
   const country = args[0];
-  const d = await fetch(
-    `https://api.covid19api.com/live/total/country/${country}`
-  ).then((res) => res.json());
-  console.log(d);
+  const data = await axios({
+    method: "GET",
+    url: `https://api.covid19api.com/live/country/${country}`
+  })
   if (!d || d.length <= 0) {
     let dEmbed = new Discord.RichEmbed()
       .setTitle("**ERROR**")
@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(moment.utc().format());
     message.channel.send(dEmbed);
   }
-  let data = d[0];
+  let d = data.data[0];
   console.log(data);
   if (country) {
     const embed = new Discord.RichEmbed()
@@ -25,11 +25,11 @@ module.exports.run = async (bot, message, args) => {
       .setThumbnail(
         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQla-GbabU21gOd7omPLBcKZJBoiRA2V4zEhTpLx0zLSYhJSBXJ&usqp=CAU"
       )
-      .addField("Country", data.country)
-      .addField("Confirmed", data.confirmed)
-      .addField("Recovered", data.recovered)
-      .addField("Deaths", data.deaths)
-      .addField("Active", data.active)
+      .addField("Country", d.country)
+      .addField("Confirmed", d.confirmed)
+      .addField("Recovered", d.recovered)
+      .addField("Deaths", d.deaths)
+      .addField("Active", d.active)
       .setFooter("Powered by Covid-19 API.")
       .setTimestamp(moment.utc().format())
       .setColor("#e71d34");

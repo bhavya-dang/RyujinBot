@@ -3,16 +3,6 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 const axios = require("axios");
 module.exports.run = async (bot, message, args) => {
-  const user = args.join(" ");
-  if (!user || user.length <= 0) {
-    let uEmbed = new Discord.RichEmbed()
-      .setTitle("**ERROR**")
-      .addField("For specific category", "`r@quotes <day*> <category*>`")
-      .addField("For random quote", "`r@quotes`")
-      .setFooter("* means optional.")
-      .setTimestamp(moment.utc().format());
-    return message.channel.send(uEmbed);
-  }
   // Fetching the categories
   const catregoryURL = await fetch(
     `https://quotes.rest/qod/categories?language=en&detailed=false`
