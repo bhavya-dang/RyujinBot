@@ -3,22 +3,22 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 const axios = require("axios");
 module.exports.run = async (bot, message, args) => {
-  // Fetching the categories
-  const catregoryURL = await fetch(
-    `https://quotes.rest/qod/categories?language=en&detailed=false`
-  ).then((res) => console.log(res.json()));
-  let categories = Object.keys(catregoryURL.contents.categories);
-  let category = args[1];
+  // // Fetching the categories
+  // const catregoryURL = await fetch(
+  //   `https://quotes.rest/qod/categories?language=en&detailed=false`
+  // ).then((res) => console.log(res.json()));
+  // let categories = Object.keys(catregoryURL.contents.categories);
+  // let category = args[1];
 
-  // Category Quote o the day Data
-  let qdData = await fetch(
-    `https://quotes.rest/qod?category=${category}&language=en`
-  ).then((res) => console.log(res.json()));
-  let quoteC = qdData.contents.quotes[0].quote;
-  let authorC = qdData.contents.quotes[0].author;
-  let titleC = qdData.contents.quotes[0].title;
-  let bgC = qdData.contents.quotes[0].background;
-  let permalinkC = qdData.contents.quotes[0].permalink;
+  // // Category Quote o the day Data
+  // let qdData = await fetch(
+  //   `https://quotes.rest/qod?category=${category}&language=en`
+  // ).then((res) => console.log(res.json()));
+  // let quoteC = qdData.contents.quotes[0].quote;
+  // let authorC = qdData.contents.quotes[0].author;
+  // let titleC = qdData.contents.quotes[0].title;
+  // let bgC = qdData.contents.quotes[0].background;
+  // let permalinkC = qdData.contents.quotes[0].permalink;
 
   // Category Random Quote  Data
   const qData = await axios({

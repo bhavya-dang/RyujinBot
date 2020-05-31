@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch");
 const moment = require("moment");
+const axios = require("axios");
 module.exports.run = async (bot, message, args) => {
   const country = args[0];
   const data = await axios({
