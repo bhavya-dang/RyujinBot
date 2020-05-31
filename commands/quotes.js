@@ -35,15 +35,15 @@ axios({
     },
   })
     .then((data) => {
-      console.log(data.originator)
+      // console.log(data.originator)
         const quote = data.quote;
         const url = data.url;
-        const author = data.originator.name;
+        // const author = data.originator.name;
         let qdEmbed = new Discord.RichEmbed()
         .setTitle("Random Quote")
         .setURL(url)
         .setDescription(quote)
-        .addField("Author", author)
+        // .addField("Author", author)
         .setColor("#02c59b")
         .setTimestamp(moment.utc().format());
       message.channel.send(qdEmbed);
