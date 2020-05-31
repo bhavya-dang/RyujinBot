@@ -36,8 +36,9 @@ axios({
   })
     .then((data) => {
       console.log(data)
-        const quote = data.quote;
-        const url = data.url;
+      let d = data.json().then(() => {
+        const quote = d.content;
+        const url = d.url;
         // const author = data.originator.name;
         let qdEmbed = new Discord.RichEmbed()
         .setTitle("Random Quote")
@@ -47,6 +48,7 @@ axios({
         .setColor("#02c59b")
         .setTimestamp(moment.utc().format());
       message.channel.send(qdEmbed);
+      })
     })
     .catch((error) => {
       console.log(error);
@@ -88,5 +90,5 @@ axios({
 };
 
 module.exports.help = {
-  name: "quotes",
+  name: "quote",
 };
