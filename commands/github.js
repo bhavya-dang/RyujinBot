@@ -12,16 +12,18 @@ module.exports.run = async (bot, message, args) => {
   }
   const data = await fetch(`https://api.github.com/users/${user}`).then((res) =>
     res.json()
-  );
-  if (!data || data.length <= 0) {
+  )
+  .catch(error => {
     let dEmbed = new Discord.RichEmbed()
-      .setTitle("**ERROR**")
-      .setDescription(
-        "Could not fetch data. Please try again or make sure the name is correctly spelled!"
-      )
-      .setTimestamp(moment.utc().format());
-    message.channel.send(dEmbed);
-  }
+    .setTitle("**ERROR**")
+    .setDescription(
+      "Could not fetch data. Please try again or make sure the name is correctly spelled!"
+    )
+    .setTimestamp(moment.utc().format());
+  message.channel.send(dEmbed);
+  })
+
+  
   const repos = `https://github.com/${data.login}/repositories`;
   const blog = data.blog === null ? "Not specified." : data.blog
   const embed = new Discord.RichEmbed()
@@ -29,8 +31,8 @@ module.exports.run = async (bot, message, args) => {
     .setURL(`https://github.com/${data.login}`)
     .setThumbnail(data.avatar_url)
     .addField("Name", `${data.name === null ? "Not specified." : data.name}`, true)
-    .addField("Bio", `${data.bio === null ? "Not specified." : data.bio}`)
-    .addField(`Repositories (${data.public_repos})`, `[\`${repos}\'](${repos})`)
+    .addField("Bio", `[\`${bio}\`](${bio})`)
+    .addField(`Repositories (${data.public_repos})`, `[\`${repos}\`](${repos})`)
     .setFooter("Powered by Github API V3.")
     .addField(
       "Website",

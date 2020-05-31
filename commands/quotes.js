@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args) => {
   // let permalinkC = qdData.contents.quotes[0].permalink;
 
   // Category Random Quote  Data
-  const qData = await axios({
+axios({
     method: "GET",
     url: "https://quotes15.p.rapidapi.com/quotes/random/",
     headers: {
@@ -34,15 +34,23 @@ module.exports.run = async (bot, message, args) => {
       language_code: "en",
     },
   })
-    .then((res) => {
-      console.log(res);
+    .then((data) => {
+        const quote = data.quote;
+        const url = data.url;
+        const author = data.originator.name;
+        let qdEmbed = new Discord.RichEmbed()
+        .setTitle("Random Quote")
+        .setURL(url)
+        .setDescription(quote)
+        .addField("Author", author)
+        .setColor("#02c59b")
+        .setTimestamp(moment.utc().format());
+      message.channel.send(qdEmbed);
     })
     .catch((error) => {
       console.log(error);
     });
-  const quote = qData.quote;
-  const url = qData.url;
-  const author = qData.originator.name;
+
 
   //   if (!data || data.length <= 0) {
   //     let dEmbed = new Discord.RichEmbed()
@@ -63,14 +71,7 @@ module.exports.run = async (bot, message, args) => {
   //       .setTimestamp(moment.utc().format());
   //     message.channel.send(categoryList);
   //   } else if (args[1] && categories.includes(args[1])) {
-      let qdEmbed = new Discord.RichEmbed()
-        .setTitle("Random Quote")
-        .setURL(url)
-        .setDescription(quote)
-        .addField("Author", author)
-        .setColor("#02c59b")
-        .setTimestamp(moment.utc().format());
-      message.channel.send(qdEmbed);
+
   //   }
   // } else if (!args[0]) {
   //   let qEmbed = new Discord.RichEmbed()

@@ -8,7 +8,8 @@ module.exports.run = async (bot, message, args) => {
     method: "GET",
     url: `https://api.covid19api.com/live/country/${country}`
   })
-  if (!d || d.length <= 0) {
+  let d = data.data[0];
+  if (!data || data.length <= 0) {
     let dEmbed = new Discord.RichEmbed()
       .setTitle("**ERROR**")
       .setDescription(
@@ -17,7 +18,6 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(moment.utc().format());
     message.channel.send(dEmbed);
   }
-  let d = data.data[0];
   console.log(data);
   if (country) {
     const embed = new Discord.RichEmbed()
