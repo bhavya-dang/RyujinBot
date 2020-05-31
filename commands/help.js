@@ -3,8 +3,8 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args) => {
   if(!args[0]) { 
   const mainEmbed = new Discord.RichEmbed()
-  .setTitle("Help")
-  .setColor("hsl(235, 21%, 21%)")
+  .setTitle("Command List")
+  .setColor("#2a2c41")
   .addField("r@help fun", "Fun Commands")
   .addField("r@help nsfw", "NSFW Commands")
   .addField("r@help anime", "Anime Commands")

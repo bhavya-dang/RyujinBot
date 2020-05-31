@@ -108,6 +108,7 @@ bot.on("message", async (message) => {
 });
 
 bot.on("guildMemberAdd", async member => {
+  if(member.guild.id === "714798049398095882"){
     const botRole = member.guild.roles.find(`name`, "The Cardinals");
     const memberRole = member.guild.roles.find(`name`, "Pariah");
 
@@ -124,9 +125,11 @@ bot.on("guildMemberAdd", async member => {
 
     member.guild.channels.get("714798050291482669").setName(`Member Count: ${users}`);
     member.guild.channels.get("714798049888829453").setName(`Bot Count: ${bots}`);
+  } else return undefined;
 });
 
 bot.on("guildMemberRemove", async member => {
+  if(member.guild.id === "714798049398095882"){
     let lChannel = bot.channels.get("714798050291482669");
 	  let leaveEmbed = new Discord.RichEmbed()
 	  .setColor(0xe26346)
@@ -140,7 +143,10 @@ bot.on("guildMemberRemove", async member => {
 
     member.guild.channels.get("714798050291482669").setName(`Member Count: ${users}`);
     member.guild.channels.get("714798049888829453").setName(`Bot Count: ${bots}`);
+  } else return undefined;
 });
+  
+
 
 
 // Ryujin Login:
