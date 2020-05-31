@@ -18,7 +18,7 @@ const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
 const prefix = "r@";
-bot.Footer = `Developed by ${bot.users.get("414111663076147201").tag}`;
+// bot.Footer = `Developed by ${bot.users.get("414111663076147201").tag}`;
 bot.commands = new Discord.Collection();
 
 let cooldown = new Set();

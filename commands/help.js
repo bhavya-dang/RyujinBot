@@ -17,14 +17,14 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@help music", "Music Commands")
   .addField("\u2022 r@help utility", "Utility Commands")
   .addField("\u2022 r@help statistics", "Statistics Commands")
-  .setFooter(bot.Footer);
+  .setFooter("Developed by Sync#0666");
   message.channel.send(mainEmbed);
   }else if(args[0] === "fun"){
   
   const funEmbed = new Discord.RichEmbed()
   .setTitle("Fun Commands")
   .setColor("#F44336")
-  .setFooter(bot.Footer)
+  .setFooter("Developed by Sync#066")
   .addField("\u2022 r@8ball <question>", "Ask the magical 8ball a question!")
   .addField("\u2022 r@ascii <query>", "Asciify text!")
   .addField("\u2022 r@cat", "Get random cat image!")
@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@chucknorris", "Get a random chuck norris joke!")
   .addField("\u2022 r@quiz", "Play a quiz!")
   .addField("\u2022 r@quotes", "Get a random quote or of a specific category!")
-  .setFooter(bot.Footer);
+  .setFooter("Developed by Sync#066");
 
   message.channel.send(funEmbed);
   }else if(args[0] === "nsfw"){
@@ -47,7 +47,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@boobs", "Get boobs image!")
   .addField("\u2022 r@neko", "Get a random Neko image!")
   .addField("\u2022 r@ass", "Get ass image.")
-  .setFooter(bot.Footer);
+  .setFooter("Developed by Sync#066");
   message.channel.send(nsfwEmbed);
   }else if(args[0] === "anime"){
   
@@ -57,7 +57,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@animeme", "Get an anime meme.")
   .addField("\u2022 r@anime <query>", "Fetch info about any anime!")
   .addField("\u2022 r@animequote", "Get a random anime quote!")
-  .setFooter(bot.Footer);
+  .setFooter("Developed by Sync#066");
   message.channel.send(animeEmbed);
   }else if(args[0] === "music"){
   
@@ -71,7 +71,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@resume/r", "Resume music.")
   .addField("\u2022 r@queue/q", "See music queue.")
   .addField("\u2022 r@skip/sk", "Skip music.")
-  .setFooter(bot.Footer);
+  .setFooter("Developed by Sync#066");
   message.channel.send(musicEmbed);
   }else if(args[0] === "utility"){
   
@@ -87,7 +87,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@ping", "Get my ping!")
   .addField("\u2022 r@vote", "Do a poll!")
   .addField("\u2022 r@avatar <name>", "Get avatar of a user.")
-  .setFooter(bot.Footer);
+  .setFooter("Developed by Sync#066");
   message.channel.send(utilEmbed);
   }else if(args[0] === "statistics"){
   
@@ -97,7 +97,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@stats", "Get bot stats.")
   .addField("\u2022 r@userstats", "Get user stats.")
   .addField("\u2022 r@serverstats", "Get server stats.")
-  .setFooter(bot.Footer);
+  .setFooter("Developed by Sync#066");
   message.channel.send(statsEmbed);
   }
   
