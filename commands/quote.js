@@ -36,19 +36,20 @@ axios({
   })
     .then((data) => {
       console.log(data)
-      let d = data.json().then(() => {
+        let d = data.data
         const quote = d.content;
         const url = d.url;
-        // const author = data.originator.name;
+        const author = d.originator.name;
         let qdEmbed = new Discord.RichEmbed()
         .setTitle("Random Quote")
         .setURL(url)
         .setDescription(quote)
-        // .addField("Author", author)
+        .addField("Author", author)
         .setColor("#02c59b")
-        .setTimestamp(moment.utc().format());
+        .setTimestamp(moment.utc().format())
+        .setFooter("Powered Quotes RapidAPI.")
       message.channel.send(qdEmbed);
-      })
+
     })
     .catch((error) => {
       console.log(error);

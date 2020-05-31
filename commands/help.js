@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@joke", "Get a random dad joke!")
   .addField("\u2022 r@chucknorris", "Get a random chuck norris joke!")
   .addField("\u2022 r@quiz", "Play a quiz!")
-  .addField("\u2022 r@quotes", "Get a random quote or of a specific category!")
+  .addField("\u2022 r@quote", "Get a random quote!")
   .setFooter("Developed by Sync#066");
 
   message.channel.send(funEmbed);
@@ -62,7 +62,7 @@ module.exports.run = async (bot, message, args) => {
   }else if(args[0] === "music"){
   
   const musicEmbed = new Discord.RichEmbed()
-  .setTitle("Music Commands")
+  .setTitle("Music Commands [UNDER MAINTAINENCE]")
   .setColor("#F44336")
   .addField("\u2022 r@play/p <query>", "Play music.")
   .addField("\u2022 r@pause", "Pause music.")
