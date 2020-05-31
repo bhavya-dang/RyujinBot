@@ -18,10 +18,10 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(moment.utc().format());
     message.channel.send(dEmbed);
   }
-  console.log(data);
+  console.log(d);
   if (country) {
     const embed = new Discord.RichEmbed()
-      .setTitle("Global Copvid-19 Data")
+      .setTitle("Global Covid-19 Data")
       .setURL(`https://www.worldometers.info/coronavirus/`)
       .setThumbnail(
         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQla-GbabU21gOd7omPLBcKZJBoiRA2V4zEhTpLx0zLSYhJSBXJ&usqp=CAU"

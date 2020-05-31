@@ -31,12 +31,12 @@ module.exports.run = async (bot, message, args) => {
     .setURL(`https://github.com/${data.login}`)
     .setThumbnail(data.avatar_url)
     .addField("Name", `${data.name === null ? "Not specified." : data.name}`, true)
-    .addField("Bio", `[\`${bio}\`](${bio})`)
+    .addField("Bio", `${data.bio === null ? "Not specified." : data.bio}`)
     .addField(`Repositories (${data.public_repos})`, `[\`${repos}\`](${repos})`)
     .setFooter("Powered by Github API V3.")
     .addField(
       "Website",
-      `[\`${blog}\'](${blog})`
+      `[\`${blog}\`](${blog}`
     )
     .addField("Followers", data.followers, true)
     .addField("Following", data.following, true)
