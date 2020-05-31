@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args) => {
     },
   })
     .then((res) => {
-      console.log(res.json());
+      console.log(res);
     })
     .catch((error) => {
       console.log(error);
@@ -69,24 +69,16 @@ module.exports.run = async (bot, message, args) => {
       let categoryList = new Discord.RichEmbed()
         .setTitle("Quotes Category List")
         .setDescription(allCategories)
-        .setColor("hsl(167, 98%, 39%)")
+        .setColor("#02c59b")
         .setTimestamp(moment.utc().format());
       message.channel.send(categoryList);
-    } else if (!args[1]) {
-      let dEmbed = new Discord.RichEmbed()
-        .setTitle("**ERROR**")
-        .setDescription(
-          "Please pass the required parameters!\n categories - To get a list of all the categories available.\n <category-name> - A specific category name from the list"
-        )
-        .setTimestamp(moment.utc().format());
-      message.channel.send(dEmbed);
     } else if (args[1] && categories.includes(args[1])) {
       let qdEmbed = new Discord.RichEmbed()
         .setTitle("Random Quote")
         .setURL(url)
         .setDescription(quote)
         .addField("Author", author)
-        .setColor("hsl(167, 98%, 39%)")
+        .setColor("#02c59b")
         .setTimestamp(moment.utc().format());
       message.channel.send(qdEmbed);
     }
@@ -97,7 +89,7 @@ module.exports.run = async (bot, message, args) => {
       .setDescription(quoteC)
       .addField("Author", authorC)
       .setThumbnail(bgC)
-      .setColor("hsl(167, 98%, 39%)")
+      .setColor("#02c59b")
       .setTimestamp(moment.utc().format());
     message.channel.send(qEmbed);
   }

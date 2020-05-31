@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args) => {
     .addField("Character", char, true)
     .addField("Anime", anime, true)
     .setTimestamp(moment.utc().format())
-    .setColor("hsl(3, 100%, 54%)");
+    .setColor("#ff2014");
 
   message.channel.send(embed);
 };

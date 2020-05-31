@@ -28,12 +28,11 @@ module.exports.run = async (bot, message, args) => {
     .setThumbnail(data.avatar_url)
     .addField("Name", data.name, true)
     .addField("Bio", data.bio)
+    .addField(`Repositories (${data.public_repos})`, `[\`https://github.com/${data.login}/repositories\']${data.blog})`)
     .setFooter("Powered by Github API V3.")
     .addField(
       "Website",
-      `[\`${data.blog === null ? "Not specified." : data.blog}\'](${
-        data.blog === null ? "Not specified." : data.blog
-      })`
+      `[\`${data.blog === null ? "Not specified." : data.blog}\'](${data.blog})`
     )
     .addField("Followers", data.followers, true)
     .addField("Following", data.following, true)

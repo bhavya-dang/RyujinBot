@@ -6,6 +6,7 @@ module.exports.run = async (bot, message, args) => {
   const d = await fetch(
     `https://api.covid19api.com/live/total/country/${country}`
   ).then((res) => res.json());
+  console.log(d);
   if (!d || d.length <= 0) {
     let dEmbed = new Discord.RichEmbed()
       .setTitle("**ERROR**")
@@ -16,6 +17,7 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send(dEmbed);
   }
   let data = d[0];
+  console.log(data);
   if (country) {
     const embed = new Discord.RichEmbed()
       .setTitle("Global Copvid-19 Data")
@@ -23,14 +25,14 @@ module.exports.run = async (bot, message, args) => {
       .setThumbnail(
         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQla-GbabU21gOd7omPLBcKZJBoiRA2V4zEhTpLx0zLSYhJSBXJ&usqp=CAU"
       )
-      .addField("Country", data.country, true)
-      .addField("Confirmed", data.confirmed, true)
-      .addField("Recovered", data.recovered, true)
-      .addField("Deaths", data.deaths, true)
-      .addField("Active", data.active, true)
+      .addField("Country", data.country)
+      .addField("Confirmed", data.confirmed)
+      .addField("Recovered", data.recovered)
+      .addField("Deaths", data.deaths)
+      .addField("Active", data.active)
       .setFooter("Powered by Covid-19 API.")
       .setTimestamp(moment.utc().format())
-      .setColor("hsl(353, 81%, 51%)");
+      .setColor("#e71d34");
 
     message.channel.send(embed);
   } else {
