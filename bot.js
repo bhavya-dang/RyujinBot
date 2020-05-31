@@ -63,17 +63,6 @@ bot.on("ready", () => {
 bot.on("message", async (message) => {
   if (message.author.bot) return undefined;
   if (!message.content.startsWith(prefix)) return;
-  if(message.content === "<@533902737398824961>"){
-    let dEmbed = new Discord.RichEmbed()
-    .setTitle("Ryu")
-    .setThumbnail(bot.user.displayAvatarURL)
-    .setDescription("A multi-utility/purpose with various commands! From games to jokes, from finding data online to listening music, Ryu has you covered! Just do r@help to get a list of its entire command system!")
-    .addField("Current Changelog", "Added github, chucknorris, random quotes and anime quotes commands. Music system under maintanence.", true)
-    .setColor("hsl(344, 100%, 54%)")
-    .setFooter(`Developed by ${bot.users.get("414111663076147201")}`)
-    .setTimestamp(moment.utc().format())
-    message.channel.send(dEmbed);
-  }
   if (message.channel.type === "dm") return;
   let args = message.content.slice(prefix.length).trim().split(" ");
   let cmd = args.shift().toLowerCase();

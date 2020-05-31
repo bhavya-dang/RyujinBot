@@ -35,7 +35,7 @@ axios({
     },
   })
     .then((data) => {
-      console.log(data.originator.name)
+      console.log(data.originator)
         const quote = data.quote;
         const url = data.url;
         const author = data.originator.name;

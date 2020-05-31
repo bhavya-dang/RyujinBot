@@ -19,16 +19,16 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send(dEmbed);
   }
   const embed = new Discord.RichEmbed()
-    .setTitle("Global Covid-19 Data")
+    .setTitle("Global Covid-19 Live Data")
     .setURL(`https://www.worldometers.info/coronavirus/`)
     .setThumbnail(
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQla-GbabU21gOd7omPLBcKZJBoiRA2V4zEhTpLx0zLSYhJSBXJ&usqp=CAU"
     )
-    .addField("Country", d.country)
-    .addField("Confirmed", d.Confirmed)
-    .addField("Recovered", d.Recovered)
-    .addField("Deaths", d.Deaths)
-    .addField("Active", d.Active)
+    .addField("Country", d.Country)
+    .addField("Confirmed", d.Confirmed.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","))
+    .addField("Recovered", d.Recovered.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","))
+    .addField("Deaths", d.Deaths.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","))
+    .addField("Active", d.Active.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","))
     .setFooter("Powered by Covid-19 API.")
     .setTimestamp(moment.utc().format())
     .setColor("#e71d34");
