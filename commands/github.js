@@ -36,7 +36,7 @@ module.exports.run = async (bot, message, args) => {
     .setFooter("Powered by Github API V3.")
     .addField(
       "Website",
-      `[\`${blog}\`](${blog}`
+      `[\`${blog}\`](${blog})`
     )
     .addField("Followers", data.followers, true)
     .addField("Following", data.following, true)
