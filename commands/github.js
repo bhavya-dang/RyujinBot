@@ -22,17 +22,19 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(moment.utc().format());
     message.channel.send(dEmbed);
   }
+  const repos = `https://github.com/${data.login}/repositories`;
+  const blog = data.blog === null ? "Not specified." : data.blog
   const embed = new Discord.RichEmbed()
     .setTitle(`${data.login === null ? "Not specified." : data.login}`)
     .setURL(`https://github.com/${data.login}`)
     .setThumbnail(data.avatar_url)
-    .addField("Name", `${data.name === null ? "Not specified." : data.name}\'](${data.name === null ? "Not specified." : data.name}`, true)
+    .addField("Name", `${data.name === null ? "Not specified." : data.name}`, true)
     .addField("Bio", `${data.bio === null ? "Not specified." : data.bio}`)
-    .addField(`Repositories (${data.public_repos})`, `[\`https://github.com/${data.login}/repositories\'](${data.blog})`)
+    .addField(`Repositories (${data.public_repos})`, `[\`${repos}\'](${repos})`)
     .setFooter("Powered by Github API V3.")
     .addField(
       "Website",
-      `[\`${data.blog === null ? "Not specified." : data.blog}\'](${data.blog === null ? "Not specified." : data.blog})`
+      `[\`${blog}\'](${blog})`
     )
     .addField("Followers", data.followers, true)
     .addField("Following", data.following, true)
