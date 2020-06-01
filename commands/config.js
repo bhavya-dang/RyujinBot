@@ -6,23 +6,24 @@ module.exports.run = async (bot, message, args, db) => {
     let guildName;
     let guildID;
 
-    db.collection("guilds").doc(message.guild.id).get().then(q => {
-        if(q.exists){
-            prefix = q.data().prefix;
-            guildID = q.data().guildID;
-            guildName = q.data().guildName;
-        }
-    }).then(() => {
+    let data = await db.collection("guilds").doc(message.guild.id).get();
+
+        if(data.exists){
+            prefix = data.data().prefix;
+            guildID = data.data().guildID;
+            guildName = data.data().guildName;
+        
+
         let embed = new Discord.RichEmbed()
         .setTitle(`Configuration for ${bot.user.username}`)
         .setThumbnail(message.guild.iconURL)
-        .addField("Prefix", `\`${prefix}\``, true)
+        .addField("Prefix:", `\`${prefix}\``, true)
         .addField("Guild Name:", `\`${message.guild.name}\``)
         .addField("Guild ID:", `\`${message.guild.id}\``)
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
         message.channel.send(embed)
-    })
+        }
 }
 
 

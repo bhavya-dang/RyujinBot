@@ -190,14 +190,38 @@ bot.on("guildMemberRemove", async (member) => {
 });
 
 bot.on("guildCreate", async (guild) => {
+  let guildJoinEmbed = new Discord.RichEmbed()
+    .setTitle("Joined Guild!")
+    .setThumbnail(guild.iconURL)
+    .addField("Guild Name:", `\`${guild.name}\``)
+    .addField("Guild ID:", `\`${guild.id}\``)
+    .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
+    .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
+    .setTimestamp(moment.utc().format())
+    .setColor("#ffe66b")
+    message.channel.send(guildJoinEmbed)
+
   db.collection("guilds").doc(guild.id).set({
     guildId: guild.id,
     guildName: guild.name,
     guildOwner: guild.owner.user.tag,
     guildOwnerID: guild.ownerID,
     prefix: "r@",
-  });
+  }).then(() => console.log(`[${guild.id}] Document Deleted`));
 });
 
+bot.on("guildDelete", async (guild) => {
+  let guildLeaveEmbed = new Discord.RichEmbed()
+  .setTitle("Left Guild!")
+  .setThumbnail(guild.iconURL)
+  .addField("Guild Name:", `\`${guild.name}\``)
+  .addField("Guild ID:", `\`${guild.id}\``)
+  .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
+  .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
+  .setTimestamp(moment.utc().format())
+  .setColor("#ffe66b")
+  message.channel.send(guildLeaveEmbed)
+  db.collection("guilds").doc(guild.id).delete().then(() => console.log(`[${guild.id}] Document Deleted`));
+});
 // Ryujin Login:
 bot.login(process.env.TOKEN);

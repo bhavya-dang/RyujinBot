@@ -2,7 +2,7 @@
 
 A multi-purpose discord bot with Moderation, Logging, Custom setup, 24/7 Music System and many more fun and useful commands to keep your members entertained all the time!
 
-## Some commands 
+## Some commands
 
 - `covid`: Track COVID-19 data by country
 - `unsplash`: Search the unsplash api for a specific image
@@ -17,12 +17,15 @@ A multi-purpose discord bot with Moderation, Logging, Custom setup, 24/7 Music S
 
 - Added four commands: `covid`, `github`, `animequotes`, `quotes`
 - Added `README.md`
-- Added mention response (bot will respond to mention in chat)
+- ~~Added~~ Removed mention response (bot will respond to mention in chat)
+- Integrated Firebase database
+- Use `setprefix` to set custom prefix (default: r@)
+- Use `config` to check server configuration
 
 ## Coming Soon
 
 - Moderation: Commands to be migrated from older bot
-- Setup feature: Set custom guild prefix, welcome/leave channels and autorole
+- Setup feature: Set ~~custom guild prefix,~~ welcome/leave channels and autorole
 - Leveling System
 
 If you liked the bot be sure to join its support server [here](https://discord.gg/btKWdJ7)!</br>
