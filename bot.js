@@ -20,7 +20,7 @@ let bot = new Discord.Client();
 let prefix;
 // bot.Footer = `Developed by ${bot.users.get("414111663076147201").tag}`;
 bot.commands = new Discord.Collection();
-require("dotenv/config"); //for development
+//require("dotenv/config"); //for development
 
 let cooldown = new Set();
 let cdSeconds = 5;
