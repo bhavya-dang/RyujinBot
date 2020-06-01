@@ -27,7 +27,7 @@ axios({
     headers: {
       "content-type": "application/octet-stream",
       "x-rapidapi-host": "quotes15.p.rapidapi.com",
-      "x-rapidapi-key": "af9984781bmsh2dac957a4ab9ce5p18d65ejsnfac6d8254687",
+      "x-rapidapi-key": process.env.RAPID_API_KEY,
       useQueryString: true,
     },
     params: {
