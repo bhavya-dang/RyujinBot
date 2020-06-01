@@ -34,6 +34,8 @@
     "express": "^4.16.4",
     "ffmpeg": "0.0.4",
     "figlet": "^1.2.3",
+    "firebase": "^7.14.6",
+    "firebase-admin": "^8.12.1",
     "fortnite": "^4.3.2",
     "fortnite.js": "^2.1.4",
     "get-json": "^2.0.0",
@@ -54,6 +56,7 @@
     "node-gyp": "^5.0.2",
     "node-opus": "^0.3.2",
     "node-superfetch": "^0.1.10",
+    "nodemon": "^2.0.4",
     "opusscript": "0.0.6",
     "os": "^0.1.1",
     "oversmash": "^1.6.0",
@@ -71,9 +74,7 @@
     "urban": "^0.3.2",
     "util": "^0.12.1",
     "weather-js": "^2.0.0",
-    "ytdl-core": "^0.29.3",
-    "firebase": "^7.14.6",
-    "firebase-admin": "^8.12.1"
+    "ytdl-core": "^0.29.3"
   },
   "devDependencies": {
     "dotenv": "^8.2.0"

@@ -4,7 +4,12 @@ moment = require("moment");
 module.exports.run = async (bot, message, args, db) => {
   
     await message.delete();
-  
+    if(message.guild.id !== "714798049398095882") return message.channel.send(new Discord.RichEmbed()
+    .setTitle("**ERROR**")
+    .setDescription(`This command is still in development. Only accessible in the [\`support server!\`](https://discord.gg/btKWdJ)`)
+    .setTimestamp(moment.utc().format())
+    .setColor("#ffe66b")
+    );
     let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(bUser.id === message.author.id) return message.channel.send(new Discord.RichEmbed()
     .setTitle("**ERROR**")
@@ -33,10 +38,10 @@ module.exports.run = async (bot, message, args, db) => {
     .setTitle("Ban")
     .setColor("#bc0000")
     .setThumbnail(bUser.user.displayAvatarURL)
-    .addField("User", `\`bUser.user.tag\``)
-    .addField("Moderator", `\`message.author.tag\``)
-    .addField("Reason", `\`${bReason ? bReason : "None."}\'`)
-    .addField("Time", `\`moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")\``)
+    .addField("User", `\`${bUser.user.tag}\``)
+    .addField("Moderator", `\`${message.author.tag}\``)
+    .addField("Reason", `\`${bReason ? bReason : "None."}\``)
+    .addField("Time", `\`${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}\``)
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL)
     let incidentchannel = message.guild.channels.find(c => c.name === "mod-log");
     if(!incidentchannel) return message.channel.send(new Discord.RichEmbed()
@@ -46,7 +51,6 @@ module.exports.run = async (bot, message, args, db) => {
     .setColor("#ffe66b"));
  
   message.channel.send(new Discord.RichEmbed()
-  .setTitle("**ERROR**")
   .setDescription(`Member has been banned!`)
   .setTimestamp(moment.utc().format())
   .setColor("#ffe66b")).then(msg => msg.delete(7500));
@@ -54,15 +58,15 @@ module.exports.run = async (bot, message, args, db) => {
   incidentchannel.send(banEmbed);
   
 
-  db.collection("bans").doc(message.guild.id).collection(bUser.id).set({
+  db.collection("bans").doc(bUser.id).set({
     guildId: message.guild.id,
     guildName: message.guild.name,
     bUser: bUser.user.tag,
     bUserID: bUser.id,
     moderator: message.author.tag,
-    reason: reason,
-    time: moment.utc().format()
-  }).then(() => console.log(`[${guild.id}] document added`));
+    reason: bReason,
+    time: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+  }).then(() => console.log(`[${message.guild.id}] document added`));
   
 //   db.collection("bans").doc(bUser.id).update({
 //     "prefix": prefixArgs

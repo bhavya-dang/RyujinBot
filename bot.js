@@ -20,7 +20,7 @@ let bot = new Discord.Client();
 let prefix;
 // bot.Footer = `Developed by ${bot.users.get("414111663076147201").tag}`;
 bot.commands = new Discord.Collection();
-//require("dotenv/config"); //for development
+require("dotenv/config"); //for development
 
 let cooldown = new Set();
 let cdSeconds = 5;
@@ -33,9 +33,9 @@ const admin = require("firebase-admin");
 const key = process.env.FIREBASE_PRIVATE_KEY;
 admin.initializeApp({
   credential: admin.credential.cert({
-    "private_key": key.replace(/\\n/g, '\n'),
-    "client_email": process.env.CLIENT_EMAIL,
-    "project_id": process.env.PROJECT_ID
+    private_key: key.replace(/\\n/g, "\n"),
+    client_email: process.env.CLIENT_EMAIL,
+    project_id: process.env.PROJECT_ID,
   }),
   databaseURL: "https://ryujinbot-8c6e8.firebaseio.com",
 });
@@ -68,7 +68,7 @@ bot.on("ready", () => {
   // Bot Status
   function botStatus() {
     let status = [
-      `my default prefix ${prefix}.`,
+      `mention me!`,
       `tweaked by Sync#0666`,
       `with ${bot.users.size} users.`,
     ];
@@ -76,7 +76,7 @@ bot.on("ready", () => {
     bot.user.setActivity(status[rstatus], { type: "STREAMING" });
   }
   setInterval(botStatus, 20000);
-});
+})
 // Message event
 bot.on("message", async (message) => {
   db.collection("guilds")
@@ -89,6 +89,20 @@ bot.on("message", async (message) => {
     })
     .then(() => {
       if (message.author.bot) return undefined;
+      if(message.content === "<@!533902737398824961>") {
+        return message.channel.send(new Discord.RichEmbed()
+        .setTitle("✶ Ryujin Bot ✶")
+        .setThumbnail(bot.user.displayAvatarURL)
+        .setTimestamp(moment.utc().format())
+        .setColor("#ff1453")
+        .setDescription(`\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quotes\`\n- Added \`README.md\`\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase database\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Added moderation system\n\n\u2022\ **Coming Soon** \u2022\ \n- Moderation: Commands to be migrated from older bot\n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System\n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!`)
+        .addField("Server Prefix:", `\`${prefix}\``, true)
+        .addField("Server Configuration:", `\`Do ${prefix}config\``,true)
+        .addField("Commands Help:", `\`Do ${prefix}help <category>\``,true)
+        .addField("Commands List:", `\`Do ${prefix}help\``,true)
+        .setFooter("» Sync#0666")
+        )
+      } else
       if (!message.content.startsWith(prefix)) return;
       if (message.channel.type === "dm") return;
       let args = message.content.slice(prefix.length).trim().split(" ");
@@ -134,8 +148,8 @@ bot.on("message", async (message) => {
 
 bot.on("guildMemberAdd", async (member) => {
   if (member.guild.id === "714798049398095882") {
-    const botRole = member.guild.roles.find(`name`, "The Cardinals");
-    const memberRole = member.guild.roles.find(`name`, "Pariah");
+    const botRole = member.guild.roles.find((r) => r.name === "The Cardinals");
+    const memberRole = member.guild.roles.find((m) => m.name === "Pariah");
 
     if (member.user.bot) {
       member.addRole(botRole);
@@ -156,12 +170,12 @@ bot.on("guildMemberAdd", async (member) => {
     let users = member.guild.members.filter((mem) => !mem.user.bot).size;
 
     member.guild.channels
-      .get("714798050291482669")
+      .get("714798049888829452")
       .setName(`Member Count: ${users}`);
     member.guild.channels
       .get("714798049888829453")
       .setName(`Bot Count: ${bots}`);
-  } else return undefined;
+  } else return;
 });
 
 bot.on("guildMemberRemove", async (member) => {
@@ -175,18 +189,18 @@ bot.on("guildMemberRemove", async (member) => {
       )
       .setTimestamp()
       .setFooter(`User Left | ${member.guild.memberCount} Members`);
-    leaveChannel.send(leaveEmbed);
+    lChannel.send(leaveEmbed);
 
     let bots = member.guild.members.filter((mem) => mem.user.bot).size;
     let users = member.guild.members.filter((mem) => !mem.user.bot).size;
 
     member.guild.channels
-      .get("714798050291482669")
+      .get("714798049888829452")
       .setName(`Member Count: ${users}`);
     member.guild.channels
       .get("714798049888829453")
       .setName(`Bot Count: ${bots}`);
-  } else return undefined;
+  } else return;
 });
 
 bot.on("guildCreate", async (guild) => {
@@ -198,30 +212,36 @@ bot.on("guildCreate", async (guild) => {
     .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
     .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
     .setTimestamp(moment.utc().format())
-    .setColor("#ffe66b")
-    bot.channels.get("717017858273574914").send(guildJoinEmbed)
+    .setColor("#ffe66b");
+  bot.channels.get("717017858273574914").send(guildJoinEmbed);
 
-  db.collection("guilds").doc(guild.id).set({
-    guildId: guild.id,
-    guildName: guild.name,
-    guildOwner: guild.owner.user.tag,
-    guildOwnerID: guild.ownerID,
-    prefix: "r@",
-  }).then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));
+  db.collection("guilds")
+    .doc(guild.id)
+    .set({
+      guildId: guild.id,
+      guildName: guild.name,
+      guildOwner: guild.owner.user.tag,
+      guildOwnerID: guild.ownerID,
+      prefix: "r@",
+    })
+    .then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));
 });
 
 bot.on("guildDelete", async (guild) => {
   let guildLeaveEmbed = new Discord.RichEmbed()
-  .setTitle("Left Guild!")
-  .setThumbnail(guild.iconURL)
-  .addField("Guild Name:", `\`${guild.name}\``)
-  .addField("Guild ID:", `\`${guild.id}\``)
-  .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
-  .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
-  .setTimestamp(moment.utc().format())
-  .setColor("#ffe66b")
-  bot.channels.get("717017858273574914").send(guildLeaveEmbed)
-  db.collection("guilds").doc(guild.id).delete().then(() => console.log(`[${guild.id}][${guild.name}] Document Deleted`));
+    .setTitle("Left Guild!")
+    .setThumbnail(guild.iconURL)
+    .addField("Guild Name:", `\`${guild.name}\``)
+    .addField("Guild ID:", `\`${guild.id}\``)
+    .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
+    .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
+    .setTimestamp(moment.utc().format())
+    .setColor("#ffe66b");
+  bot.channels.get("717017858273574914").send(guildLeaveEmbed);
+  db.collection("guilds")
+    .doc(guild.id)
+    .delete()
+    .then(() => console.log(`[${guild.id}][${guild.name}] Document Deleted`));
 });
 // Ryujin Login:
 bot.login(process.env.TOKEN);

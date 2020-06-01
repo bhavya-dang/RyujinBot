@@ -11,16 +11,17 @@ A multi-purpose discord bot with Moderation, Logging, Custom setup, 24/7 Music S
 - `anime`: Search about any anime within Discord itself
 - `animeme`: Get an anime meme right within Discord
 - `quotes`: Get quotes right within Discord
-<br/>and **34** more commands!!
+</br>and **34** more commands!!
 
 ## Changelog
 
 - Added four commands: `covid`, `github`, `animequotes`, `quotes`
 - Added `README.md`
-- ~~Added~~ Removed mention response (bot will respond to mention in chat)
+- Added mention response (bot will send current server configuration)
 - Integrated Firebase database
 - Use `setprefix` to set custom prefix (default: r@)
 - Use `config` to check server configuration
+- Added moderation system
 
 ## Coming Soon
 
