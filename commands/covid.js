@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 const axios = require("axios");
 module.exports.run = async (bot, message, args) => {
-  const country = args[0];
+  const country = args.join(" ");
   const data = await axios({
     method: "GET",
     url: `https://api.covid19api.com/live/country/${country}`,
