@@ -89,7 +89,7 @@ bot.on("message", async (message) => {
     })
     .then(() => {
       if (message.author.bot) return undefined;
-      if(message.content === "<@!533902737398824961>") {
+      if(message.content === "<@!533902737398824961>" || message.content === "<@533902737398824961>") {
         return message.channel.send(new Discord.RichEmbed()
         .setTitle("✶ Ryujin Bot ✶")
         .setThumbnail(bot.user.displayAvatarURL)
