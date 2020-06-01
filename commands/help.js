@@ -4,13 +4,7 @@ module.exports.run = async (bot, message, args) => {
   if(!args[0]) { 
   const mainEmbed = new Discord.RichEmbed()
   .setTitle("Command List")
-  .setColor(
-    `${
-      message.guild.me.displayHexColor !== "#000000"
-        ? message.guild.me.displayHexColor
-        : 0xffffff
-    }`
-  )
+  .setColor("#e17c60")
   .addField("\u2022 r@help fun", "Fun Commands")
   .addField("\u2022 r@help nsfw", "NSFW Commands")
   .addField("\u2022 r@help anime", "Anime Commands")

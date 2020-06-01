@@ -199,7 +199,7 @@ bot.on("guildCreate", async (guild) => {
     .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
     .setTimestamp(moment.utc().format())
     .setColor("#ffe66b")
-    message.channel.send(guildJoinEmbed)
+    bot.channels.get("717017858273574914").send(guildJoinEmbed)
 
   db.collection("guilds").doc(guild.id).set({
     guildId: guild.id,
@@ -207,7 +207,7 @@ bot.on("guildCreate", async (guild) => {
     guildOwner: guild.owner.user.tag,
     guildOwnerID: guild.ownerID,
     prefix: "r@",
-  }).then(() => console.log(`[${guild.id}] Document Deleted`));
+  }).then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));
 });
 
 bot.on("guildDelete", async (guild) => {
@@ -220,8 +220,8 @@ bot.on("guildDelete", async (guild) => {
   .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
   .setTimestamp(moment.utc().format())
   .setColor("#ffe66b")
-  message.channel.send(guildLeaveEmbed)
-  db.collection("guilds").doc(guild.id).delete().then(() => console.log(`[${guild.id}] Document Deleted`));
+  bot.channels.get("717017858273574914").send(guildLeaveEmbed)
+  db.collection("guilds").doc(guild.id).delete().then(() => console.log(`[${guild.id}][${guild.name}] Document Deleted`));
 });
 // Ryujin Login:
 bot.login(process.env.TOKEN);
