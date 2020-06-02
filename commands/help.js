@@ -67,7 +67,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("\u2022 r@resume/r", "Resume music.")
   .addField("\u2022 r@queue/q", "See music queue.")
   .addField("\u2022 r@skip/sk", "Skip music.")
-  .setFooter("Developed by Sync#066 | [UNDER MAINTAINENCE]", bot.user.displayAvatarURL);
+  .setFooter("Developed by Sync#066", bot.user.displayAvatarURL);
   message.channel.send(musicEmbed);
   }else if(args[0] === "utility"){
   

@@ -95,7 +95,7 @@ bot.on("message", async (message) => {
         .setThumbnail(bot.user.displayAvatarURL)
         .setTimestamp(moment.utc().format())
         .setColor("#ff1453")
-        .setDescription(`\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quotes\`\n- Added \`README.md\`\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase database\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Added moderation system\n\n\u2022\ **Coming Soon** \u2022\ \n- Moderation: Commands to be migrated from older bot\n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System\n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!`)
+        .setDescription(`\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quote\`\n- Added \`README.md\`\n- Fixed music system.\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase database\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Added moderation system [UNDER DEVELOPMENT]\n\n\u2022\ **Coming Soon** \u2022\ \n- Moderation: Commands to be migrated from older bot\n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System\n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!`)
         .addField("Server Prefix:", `\`${prefix}\``, true)
         .addField("Server Configuration:", `\`Do ${prefix}config\``,true)
         .addField("Commands Help:", `\`Do ${prefix}help <category>\``,true)
