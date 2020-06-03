@@ -18,9 +18,19 @@ const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
 let prefix;
+require("dotenv/config"); //for development
+
+// Sending server count to DBL
+const DBL = require("dblapi.js");
+const dbl = new DBL(process.env.DBL_TOKEN, bot);
+
+// Optional events
+dbl.on("posted", () => {
+  console.log("Server count posted!");
+});
+
 // bot.Footer = `Developed by ${bot.users.get("414111663076147201").tag}`;
 bot.commands = new Discord.Collection();
-//require("dotenv/config"); //for development
 
 let cooldown = new Set();
 let cdSeconds = 5;
@@ -44,6 +54,10 @@ const db = admin.firestore();
 
 // Ready event
 bot.on("ready", () => {
+  setInterval(() => {
+    dbl.postStats(bot.guilds.size);
+  }, 1800000);
+
   console.log(
     `[${moment(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}] [${
       bot.user.username
@@ -76,7 +90,7 @@ bot.on("ready", () => {
     bot.user.setActivity(status[rstatus], { type: "STREAMING" });
   }
   setInterval(botStatus, 20000);
-})
+});
 // Message event
 bot.on("message", async (message) => {
   db.collection("guilds")
@@ -89,21 +103,26 @@ bot.on("message", async (message) => {
     })
     .then(() => {
       if (message.author.bot) return undefined;
-      if(message.content === "<@!533902737398824961>" || message.content === "<@533902737398824961>") {
-        return message.channel.send(new Discord.RichEmbed()
-        .setTitle("✶ Ryujin Bot ✶")
-        .setThumbnail(bot.user.displayAvatarURL)
-        .setTimestamp(moment.utc().format())
-        .setColor("#ff1453")
-        .setDescription(`\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quote\`\n- Added \`README.md\`\n- Fixed music system.\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase database\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Added moderation system [UNDER DEVELOPMENT]\n\n\u2022\ **Coming Soon** \u2022\ \n- Moderation: Commands to be migrated from older bot\n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System\n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!`)
-        .addField("Server Prefix:", `\`${prefix}\``, true)
-        .addField("Server Configuration:", `\`Do ${prefix}config\``,true)
-        .addField("Commands Help:", `\`Do ${prefix}help <category>\``,true)
-        .addField("Commands List:", `\`Do ${prefix}help\``,true)
-        .setFooter("» Sync#0666")
-        )
-      } else
-      if (!message.content.startsWith(prefix)) return;
+      if (
+        message.content === "<@!533902737398824961>" ||
+        message.content === "<@533902737398824961>"
+      ) {
+        return message.channel.send(
+          new Discord.RichEmbed()
+            .setTitle("✶ Ryujin Bot ✶")
+            .setThumbnail(bot.user.displayAvatarURL)
+            .setTimestamp(moment.utc().format())
+            .setColor("#ff1453")
+            .setDescription(
+              `\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quote\`\n- Added \`README.md\`\n- Fixed music system.\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase and MongoDB databaseS\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Added moderation system [UNDER DEVELOPMENT]\n\n\u2022\ **Coming Soon** \u2022\ \n- Moderation: Commands to be migrated from older bot\n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System\n- \nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!\nThe bot is constantly in development. So you might see two instances (commands running twice) sometimes. Sorry for the inconvinience!`
+            )
+            .addField("Server Prefix:", `\`${prefix}\``, true)
+            .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
+            .addField("Commands Help:", `\`Do ${prefix}help <category>\``, true)
+            .addField("Commands List:", `\`Do ${prefix}help\``, true)
+            .setFooter("» Sync#0666")
+        );
+      } else if (!message.content.startsWith(prefix)) return;
       if (message.channel.type === "dm") return;
       let args = message.content.slice(prefix.length).trim().split(" ");
       let cmd = args.shift().toLowerCase();
@@ -130,11 +149,6 @@ bot.on("message", async (message) => {
         commandFile.run(bot, message, args, db);
       } catch (err) {
         console.log(`${err.stack}`);
-        // let embed = new Discord.RichEmbed()
-        // .setColor("#e94957")
-        // .setDescription("Command not found! Try `r@help`")
-        // .setTimestamp(moment.utc().format())
-        // message.channel.send(embed)
       }
       console.log(
         `[${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}] [${
@@ -211,6 +225,7 @@ bot.on("guildCreate", async (guild) => {
     .addField("Guild ID:", `\`${guild.id}\``)
     .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
     .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
+    .addField("Member Count:", `\`${guild.memberCount}\``)
     .setTimestamp(moment.utc().format())
     .setColor("#ffe66b");
   bot.channels.get("717017858273574914").send(guildJoinEmbed);
@@ -222,6 +237,7 @@ bot.on("guildCreate", async (guild) => {
       guildName: guild.name,
       guildOwner: guild.owner.user.tag,
       guildOwnerID: guild.ownerID,
+      memberCount: guild.users.size,
       prefix: "r@",
     })
     .then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));
@@ -235,6 +251,7 @@ bot.on("guildDelete", async (guild) => {
     .addField("Guild ID:", `\`${guild.id}\``)
     .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
     .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
+    .addField("Member Count:", `\`${guild.users.size}\``)
     .setTimestamp(moment.utc().format())
     .setColor("#ffe66b");
   bot.channels.get("717017858273574914").send(guildLeaveEmbed);

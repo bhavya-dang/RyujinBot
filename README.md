@@ -2,6 +2,8 @@
 
 A multi-purpose discord bot with Moderation, Logging, Custom setup, 24/7 Music System and many more fun and useful commands to keep your members entertained all the time!
 
+**In over 13 Servers and with 113k+ members so far!**
+
 ## Some commands
 
 - `covid`: Track COVID-19 data by country
@@ -10,22 +12,21 @@ A multi-purpose discord bot with Moderation, Logging, Custom setup, 24/7 Music S
 - `hb`: Upload your code to hastebin and get your own link
 - `anime`: Search about any anime within Discord itself
 - `animeme`: Get an anime meme right within Discord
-- `quotes`: Get quotes right within Discord
-</br>and **34** more commands!!
+- `quote`: Get quotes right within Discord
+  </br>and over **50** more commands!!
 
 ## Changelog
 
-- Added four commands: `covid`, `github`, `animequotes`, `quotes`
+- Added four commands: `covid`, `github`, `animequotes`, `quote`
 - Added `README.md`
 - Added mention response (bot will send current server configuration)
 - Integrated Firebase database
 - Use `setprefix` to set custom prefix (default: r@)
 - Use `config` to check server configuration
-- Added moderation system
+- Added migration system [UNDER DEVELOPMENT UNTIL FULLY TESTED]
 
 ## Coming Soon
 
-- Moderation: Commands to be migrated from older bot
 - Setup feature: Set ~~custom guild prefix,~~ welcome/leave channels and autorole
 - Leveling System
 

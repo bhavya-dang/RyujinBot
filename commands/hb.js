@@ -3,10 +3,11 @@ const Discord = require("discord.js");
 const moment = require("moment");
 
 module.exports.run = async (bot, message, args) => {
+  await message.delete(1000);
   const ext = args.slice(0, 1);
   let code = args.slice(1).join(" ");
   try {
-    hastebin(code, {extension: ext}).then((r) => {
+    hastebin(code, { extension: ext }).then((r) => {
       let embed = new Discord.RichEmbed()
         .setTitle("**Hastebin Generator**")
         .setDescription(
