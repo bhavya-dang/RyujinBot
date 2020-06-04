@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-require("dotenv/config");
 const moment = require("moment"),
   mongoose = require("mongoose"),
   db = require("../keys").MongoURI,
