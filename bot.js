@@ -239,7 +239,7 @@ bot.on("guildCreate", async (guild) => {
       guildName: guild.name,
       guildOwner: guild.owner.user.tag,
       guildOwnerID: guild.ownerID,
-      memberCount: guild.users.size,
+      memberCount: guild.memberCount,
       prefix: "r@",
     })
     .then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));

@@ -85,9 +85,9 @@ module.exports.run = async (bot, message, args) => {
     );
   kUser.kick(kReason).then(() => logChannel.send(kickEmbed));
   const newKick = new Kick({
-    kUserName: kUser.user.username,
+    kUserName: kUser.user.tag,
     kUserID: kUser.id,
-    moderator: message.author.username,
+    moderator: message.author.tag,
     reason: kReason,
     date_time: moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss"),
   });

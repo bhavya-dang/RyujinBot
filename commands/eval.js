@@ -3,7 +3,6 @@ const Discord = require("discord.js"),
   Hastebin = require("hastebin-gen");
 
 module.exports.run = async (bot, message, args) => {
-  await message.delete(1000);
 
   const devs = ["414111663076147201"];
 
