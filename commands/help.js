@@ -1,6 +1,6 @@
 const Discord = require(`discord.js`);
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, args, db) => {
   let prefix;
   db.collection(`guilds`)
   .doc(message.guild.id)
@@ -111,7 +111,7 @@ module.exports.run = async (bot, message, args) => {
         .setTitle(`Moderation Commands`)
         .setColor(`#F44336`)
         .addField(`\u2022 ${prefix}ban <@mention> <reason>`, `Ban a user!`)
-        .addField(`\u2022 r${prefix}kick <@mention> <reason>`, `Kick a user!`)
+        .addField(`\u2022 ${prefix}kick <@mention> <reason>`, `Kick a user!`)
         .addField(`\u2022 ${prefix}clear <number>`, `Clear messages in chat!`)
         .addField(`\u2022 ${prefix}mute <@mention> <reason>`, `Mute a user!`)
         .addField(`\u2022 ${prefix}unmute <@mention>`, `Unmute a muted user!`)
