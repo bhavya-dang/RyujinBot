@@ -2,7 +2,7 @@
 
 A multi-purpose discord bot with Moderation, Logging, Custom setup, 24/7 Music System and many more fun and useful commands to keep your members entertained all the time!
 
-**In over 13 Servers and with 113k+ members so far!**
+**In over 17 Servers and with 113k+ members so far!**
 
 ## Some commands
 
