@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-  let kReason = args.join(" ").slice(22);
+  let kReason = args.join(" ").trim().slice(22);
   if (!message.member.hasPermission("BAN_MEMBERS"))
     return message.channel.send(
       new Discord.RichEmbed()

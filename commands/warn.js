@@ -40,7 +40,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-  let wReason = args.join(" ").slice(22);
+  let wReason = args.join(" ").trim().slice(22);
   if (!message.member.hasPermission("MANAGE_MESSAGES"))
     return message.channel.send(
       new Discord.RichEmbed()
@@ -84,7 +84,7 @@ module.exports.run = async (bot, message, args) => {
     wUserName: wUser.user.tag,
     wUserID: wUser.id,
     moderator: message.author.tag,
-    reason: reason,
+    reason: wReason,
     date_time: moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss"),
   });
 

@@ -52,7 +52,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#ffe66b")
     );
 
-  let mReason = args.join(" ").slice(22);
+  let mReason = args.join(" ").trim().slice(22);
   if (!message.member.hasPermission("MANAGE_ROLES"))
     return message.channel.send(
       new Discord.RichEmbed()
@@ -70,7 +70,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#ffe66b")
     );
   let embed = new Discord.RichEmbed()
-    .setTitle("Mute")
+    .setTitle("Unute")
     .setColor("#bc0000")
     .setThumbnail(mUser.user.displayAvatarURL)
     .addField("User", `\`${mUser.user.tag}\``)
@@ -82,7 +82,7 @@ module.exports.run = async (bot, message, args) => {
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
   let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
-  logChannel.send(embed);
+  logChannel.send(embed).then(() => mUser.removeRole(mRole.id))
   if (!logChannel)
     return message.channel.send(
       new Discord.RichEmbed()

@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-  let mReason = args.join(" ").slice(22);
+  let mReason = args.join(" ").trim().slice(22);
   if (!message.member.hasPermission("MANAGE_ROLES"))
     return message.channel.send(
       new Discord.RichEmbed()
@@ -51,6 +51,25 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
+    let mRole = message.guild.roles.find((r) => r.name === "Muted");
+  if (!mRole)
+    return message.channel.send(
+      new Discord.RichEmbed()
+        .setTitle("**ERROR**")
+        .setDescription("`Muted` role does not exist! Please create one!")
+        .setTimestamp(moment.utc().format())
+        .setColor("#ffe66b")
+    );
+
+  if (mUser.roles.has(mRole.id))
+    return message.channel.send(
+      new Discord.RichEmbed()
+        .setTitle("**ERROR**")
+        .setDescription("This person is already muted!")
+        .setTimestamp(moment.utc().format())
+        .setColor("#ffe66b")
+    );
+
   let embed = new Discord.RichEmbed()
     .setTitle("Mute")
     .setColor("#bc0000")
@@ -64,7 +83,7 @@ module.exports.run = async (bot, message, args) => {
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
   let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
-  logChannel.send(embed);
+  logChannel.send(embed).then(() => mUser.addRole(mRole.id))
   if (!logChannel)
     return message.channel.send(
       new Discord.RichEmbed()
