@@ -73,6 +73,14 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
+    message.channel
+    .send(
+      new Discord.RichEmbed()
+        .setDescription(`Member has been muted!`)
+        .setTimestamp(moment.utc().format())
+        .setColor("#ffe66b")
+    )
+    .then((msg) => msg.delete(7500));
 };
 
 module.exports.help = {
