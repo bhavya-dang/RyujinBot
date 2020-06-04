@@ -94,13 +94,13 @@ module.exports.run = async (bot, message, args) => {
 
   newKick.save().then((res) => console.log(res));
   message.channel
-  .send(
-    new Discord.RichEmbed()
-      .setDescription(`Member has been kicked!`)
-      .setTimestamp(moment.utc().format())
-      .setColor("#ffe66b")
-  )
-  .then((msg) => msg.delete(7500));
+    .send(
+      new Discord.RichEmbed()
+        .setDescription(`Member has been kicked!`)
+        .setTimestamp(moment.utc().format())
+        .setColor("#ffe66b")
+    )
+    .then((msg) => msg.delete(7500));
 };
 
 module.exports.help = {

@@ -17,14 +17,24 @@ module.exports.run = async (bot, message, args) => {
   let mUser = message.guild.member(
     message.mentions.users.first() || message.guild.members.get(args[0])
   );
-  if (mUser.id === message.author.id)
+
+  if (!mUser.roles.has(mRole.id))
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
-        .setDescription("You can't mute yourself!")
+        .setDescription("This person is not muted!")
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
+
+  // if (mUser.id === message.author.id)
+  //   return message.channel.send(
+  //     new Discord.RichEmbed()
+  //       .setTitle("**ERROR**")
+  //       .setDescription("You can't mute yourself!")
+  //       .setTimestamp(moment.utc().format())
+  //       .setColor("#ffe66b")
+  //   );
   if (!mUser)
     return message.channel.send(
       new Discord.RichEmbed()
@@ -39,15 +49,6 @@ module.exports.run = async (bot, message, args) => {
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
         .setDescription("`Muted` role does not exist! Please create one!")
-        .setTimestamp(moment.utc().format())
-        .setColor("#ffe66b")
-    );
-
-  if (!mUser.roles.has(mRole.id))
-    return message.channel.send(
-      new Discord.RichEmbed()
-        .setTitle("**ERROR**")
-        .setDescription("This person is not muted!")
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
@@ -82,7 +83,7 @@ module.exports.run = async (bot, message, args) => {
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
   let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
-  logChannel.send(embed).then(() => mUser.removeRole(mRole.id))
+  logChannel.send(embed).then(() => mUser.removeRole(mRole.id));
   if (!logChannel)
     return message.channel.send(
       new Discord.RichEmbed()
@@ -91,7 +92,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-    message.channel
+  message.channel
     .send(
       new Discord.RichEmbed()
         .setDescription(`Member has been unmuted!`)

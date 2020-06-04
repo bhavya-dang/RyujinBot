@@ -51,7 +51,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-    let mRole = message.guild.roles.find((r) => r.name === "Muted");
+  let mRole = message.guild.roles.find((r) => r.name === "Muted");
   if (!mRole)
     return message.channel.send(
       new Discord.RichEmbed()
@@ -83,7 +83,7 @@ module.exports.run = async (bot, message, args) => {
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
   let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
-  logChannel.send(embed).then(() => mUser.addRole(mRole.id))
+  logChannel.send(embed).then(() => mUser.addRole(mRole.id));
   if (!logChannel)
     return message.channel.send(
       new Discord.RichEmbed()
@@ -92,7 +92,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-    message.channel
+  message.channel
     .send(
       new Discord.RichEmbed()
         .setDescription(`Member has been muted!`)
