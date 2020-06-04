@@ -65,7 +65,7 @@ module.exports.run = async (bot, message, args) => {
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
-        .setDescription("You don't have enough permissions to ban them")
+        .setDescription("You don't have enough permissions to unmute them")
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );

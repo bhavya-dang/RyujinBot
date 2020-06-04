@@ -83,8 +83,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-    bUser.ban(bReason);
-    logChannel.send(banEmbed);
+    bUser.ban(bReason).then(() => logChannel.send(banEmbed));
   message.channel
     .send(
       new Discord.RichEmbed()

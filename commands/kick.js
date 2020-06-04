@@ -54,11 +54,11 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-  if (kUser.hasPermission("BAN_MEMBERS"))
+  if (kUser.hasPermission("KICK_MEMBERS"))
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
-        .setDescription("You don't have enough permissions to ban them")
+        .setDescription("You don't have enough permissions to kick them")
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
@@ -83,8 +83,7 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-  kUser.ban(kReason);
-  logChannel.send(kickEmbed);
+  kUser.kick(kReason).then(() => logChannel.send(kickEmbed));
   const newKick = new Kick({
     kUserName: kUser.user.username,
     kUserID: kUser.id,
