@@ -73,7 +73,7 @@ module.exports.run = async (bot, message, args) => {
       .addField(`\u2022 ${prefix}play/p <query>`, `Play music.`)
       .addField(`\u2022 ${prefix}pause`, `Pause music.`)
       .addField(`\u2022 ${prefix}stop/s`, `Stop music.`)
-      .addField(`\u2022 ${prefix}np/nowplaying`, `See `Now Playing` music.`)
+      .addField(`\u2022 ${prefix}np/nowplaying`, "See `Now Playing` music.")
       .addField(`\u2022 ${prefix}resume/r`, `Resume music.`)
       .addField(`\u2022 ${prefix}queue/q`, `See music queue.`)
       .addField(`\u2022 ${prefix}skip/sk`, `Skip music.`)
@@ -117,8 +117,9 @@ module.exports.run = async (bot, message, args) => {
         .addField(`\u2022 ${prefix}unmute <@mention>`, `Unmute a muted user!`)
         .setFooter(`Developed by Sync#066 | [UNDER DEVELOPMENT]`, bot.user.displayAvatarURL);
         message.channel.send(modEmbed);
-  });
   }
+
+  });
   
   
 }
