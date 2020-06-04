@@ -18,7 +18,7 @@ const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
 let prefix;
-require("dotenv/config"); //for development
+//require("dotenv/config"); //for development
 
 // Sending server count to DBL
 const DBL = require("dblapi.js");
