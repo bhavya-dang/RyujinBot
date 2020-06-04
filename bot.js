@@ -18,7 +18,7 @@ const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
 let prefix;
-//require("dotenv/config"); //for development
+require("dotenv/config"); //for development
 
 // Sending server count to DBL
 const DBL = require("dblapi.js");
@@ -116,7 +116,7 @@ bot.on("message", async (message) => {
             .setTimestamp(moment.utc().format())
             .setColor("#ff1453")
             .setDescription(
-              `\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quote\`\n- Added \`README.md\`\n- Fixed music system.\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase and MongoDB databaseS\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Added moderation system [UNDER DEVELOPMENT]\n\n\u2022\ **Coming Soon** \u2022\ \n- Moderation: Commands to be migrated from older bot\n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!\n\nAs he bot is constantly in development, you might see two instances (commands running twice) sometimes. Extremely sorry for the inconvinience!`
+              `\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quote\`\n- Added \`README.md\`\n- Fixed music system.\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase and MongoDB databaseS\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Moderation system migrated from old bot [DATABASE INTEGRATION REMAINING]\n\n\u2022\ **Coming Soon** \u2022\ \n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!\n\nAs the bot is constantly in development, you might see two instances (commands running twice) sometimes. Extremely sorry for the inconvinience!`
             )
             .addField("Server Prefix:", `\`${prefix}\``, true)
             .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
