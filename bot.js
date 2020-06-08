@@ -100,7 +100,7 @@ bot.on("message", async (message) => {
     .get()
     .then((q) => {
       if (q.exists) {
-        prefix = q.data().prefix;
+        prefix = q.data().prefix
       }
     })
     .then(() => {
