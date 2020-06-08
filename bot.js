@@ -235,17 +235,17 @@ bot.on("guildCreate", async (guild) => {
     .setColor("#ffe66b");
   bot.channels.get("717017858273574914").send(guildJoinEmbed);
 
-  db.collection("guilds")
-    .doc(guild.id)
-    .set({
-      guildId: guild.id,
-      guildName: guild.name,
-      guildOwner: guild.owner.user.tag,
-      guildOwnerID: guild.ownerID,
-      memberCount: guild.memberCount,
-      prefix: "r@",
-    })
-    .then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));
+  // db.collection("guilds")
+  //   .doc(guild.id)
+  //   .set({
+  //     guildId: guild.id,
+  //     guildName: guild.name,
+  //     guildOwner: guild.owner.user.tag,
+  //     guildOwnerID: guild.ownerID,
+  //     memberCount: guild.memberCount,
+  //     prefix: "r@",
+  //   })
+  //   .then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));
 });
 
 bot.on("guildDelete", async (guild) => {
@@ -260,10 +260,10 @@ bot.on("guildDelete", async (guild) => {
     .setTimestamp(moment.utc().format())
     .setColor("#ffe66b");
   bot.channels.get("717017858273574914").send(guildLeaveEmbed);
-  db.collection("guilds")
-    .doc(guild.id)
-    .delete()
-    .then(() => console.log(`[${guild.id}][${guild.name}] Document Deleted`));
+  // db.collection("guilds")
+  //   .doc(guild.id)
+  //   .delete()
+  //   .then(() => console.log(`[${guild.id}][${guild.name}] Document Deleted`));
 });
 // Ryujin Login:
 bot.login(process.env.TOKEN);
