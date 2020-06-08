@@ -1,6 +1,6 @@
 const Discord = require(`discord.js`);
 
-module.exports.run = async (bot, message, args, db) => {
+module.exports.run = async (bot, message, args) => {
   let prefix = "r@";
   if (!args[0]) {
     const mainEmbed = new Discord.RichEmbed()

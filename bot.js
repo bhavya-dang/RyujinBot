@@ -152,7 +152,7 @@ bot.on("message", async (message) => {
     // Command Handler
     try {
       let commandFile = require(`./commands/${cmd}.js`);
-      commandFile.run(bot, message, args, db);
+      commandFile.run(bot, message, args);
     } catch (err) {
       console.log(`${err.stack}`);
     }

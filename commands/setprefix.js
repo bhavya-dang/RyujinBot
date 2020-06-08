@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const moment = require("moment");
-module.exports.run = async (bot, message, args, db) => {
+module.exports.run = async (bot, message, args) => {
   //     let prefixArgs = args[0]
   //     let noargsembed = new Discord.RichEmbed()
   //     .setFooter("Please specify a single character arguement.")
