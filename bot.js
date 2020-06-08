@@ -17,7 +17,7 @@ const Discord = require("discord.js");
 const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
-let prefix;
+let prefix = "r@"
 //require("dotenv/config"); //for development
 
 // Sending server count to DBL
@@ -95,71 +95,74 @@ bot.on("ready", () => {
 });
 // Message event
 bot.on("message", async (message) => {
-  db.collection("guilds")
-    .doc(message.guild.id)
-    .get()
-    .then((q) => {
-      if (q.exists) {
-        prefix = q.data().prefix
-      }
-    })
-    .then(() => {
-      if (message.author.bot) return undefined;
-      if (
-        message.content === "<@!533902737398824961>" ||
-        message.content === "<@533902737398824961>"
-      ) {
-        return message.channel.send(
-          new Discord.RichEmbed()
-            .setTitle("✶ Ryujin Bot ✶")
-            .setThumbnail(bot.user.displayAvatarURL)
-            .setTimestamp(moment.utc().format())
-            .setColor("#ff1453")
-            .setDescription(
-              `\u2022\ **Changelog** \u2022\ \n- Added four commands: \`covid\`, \`github\`, \`animequotes\`, \`quote\`\n- Added \`README.md\`\n- Fixed music system.\n- Added mention response (bot will respond to mention in chat)\n- Integrated Firebase and MongoDB databaseS\n- Use \`setprefix\` to set custom prefix (default: r@)\n- Use \`config\` to check server configuration\n- Moderation system migrated from old bot [DATABASE INTEGRATION REMAINING]\n\n\u2022\ **Coming Soon** \u2022\ \n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!\n\nAs the bot is constantly in development, you might see two instances (commands running twice) sometimes. Extremely sorry for the inconvinience!`
-            )
-            .addField("Server Prefix:", `\`${prefix}\``, true)
-            .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
-            .addField("Commands Help:", `\`Do ${prefix}help <category>\``, true)
-            .addField("Commands List:", `\`Do ${prefix}help\``, true)
-            .setFooter("» Sync#0666")
-        );
-      } else if (!message.content.startsWith(prefix)) return;
-      if (message.channel.type === "dm") return;
-      let args = message.content.slice(prefix.length).trim().split(" ");
-      let cmd = args.shift().toLowerCase();
-      message.prefix = prefix;
+  // db.collection("guilds")
+  //   .doc(message.guild.id)
+  //   .get()
+  //   .then((q) => {
+  //     if (q.exists) {
+  //       prefix = q.data().prefix
+  //     }
+  //   })
+  //   .then(() => {
 
-      if (cooldown.has(message.author.id)) {
-        message.delete();
-        return message.channel.send(
-          `**Please wait for ${cdSeconds} seconds! [RATELIMITED]**`
-        );
-      }
+  //   })
+  //   .catch(err => console.log(err));
 
-      if (!message.member.hasPermission("ADMINISTRATOR")) {
-        cooldown.add(message.author.id);
-      }
-
-      setTimeout(() => {
-        cooldown.delete(message.author.id);
-      }, cdSeconds * 1000);
-
-      // Command Handler
-      try {
-        let commandFile = require(`./commands/${cmd}.js`);
-        commandFile.run(bot, message, args, db);
-      } catch (err) {
-        console.log(`${err.stack}`);
-      }
-      console.log(
-        `[${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}] [${
-          message.author.tag
-        }]: Command: "${cmd}" [${message.guild.name}] [#${
-          message.channel.name
-        }]`
+    if (message.author.bot) return undefined;
+    if (
+      message.content === "<@!533902737398824961>" ||
+      message.content === "<@533902737398824961>"
+    ) {
+      return message.channel.send(
+        new Discord.RichEmbed()
+          .setTitle("✶ Ryujin Bot ✶")
+          .setThumbnail(bot.user.displayAvatarURL)
+          .setTimestamp(moment.utc().format())
+          .setColor("#ff1453")
+          .setDescription(
+            `\u2022\ **Changelog** \u2022\ \n- Due to some storage issue with Firebase, custom prefix commands do not work anymore. Prefix is \`r@\` now. \n- Moderation system migrated from old bot [DATABASE INTEGRATION REMAINING]\n\n\u2022\ **Coming Soon** \u2022\ \n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!\n\nAs the bot is constantly in development, you might see two instances (commands running twice) sometimes. Extremely sorry for the inconvinience!`
+          )
+          .addField("Server Prefix:", `\`${prefix}\``, true)
+          .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
+          .addField("Commands Help:", `\`Do ${prefix}help <category>\``, true)
+          .addField("Commands List:", `\`Do ${prefix}help\``, true)
+          .setFooter("Custom Prefix System Disabled currently » Sync#0666")
       );
-    });
+    } else if (!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
+    let args = message.content.slice(prefix.length).trim().split(" ");
+    let cmd = args.shift().toLowerCase();
+    message.prefix = prefix;
+
+    if (cooldown.has(message.author.id)) {
+      message.delete();
+      return message.channel.send(
+        `**Please wait for ${cdSeconds} seconds! [RATELIMITED]**`
+      );
+    }
+
+    if (!message.member.hasPermission("ADMINISTRATOR")) {
+      cooldown.add(message.author.id);
+    }
+
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, cdSeconds * 1000);
+
+    // Command Handler
+    try {
+      let commandFile = require(`./commands/${cmd}.js`);
+      commandFile.run(bot, message, args, db);
+    } catch (err) {
+      console.log(`${err.stack}`);
+    }
+    console.log(
+      `[${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}] [${
+        message.author.tag
+      }]: Command: "${cmd}" [${message.guild.name}] [#${
+        message.channel.name
+      }]`
+    );
 });
 
 bot.on("guildMemberAdd", async (member) => {
