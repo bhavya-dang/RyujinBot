@@ -95,18 +95,6 @@ bot.on("ready", () => {
 });
 // Message event
 bot.on("message", async (message) => {
-  // db.collection("guilds")
-  //   .doc(message.guild.id)
-  //   .get()
-  //   .then((q) => {
-  //     if (q.exists) {
-  //       prefix = q.data().prefix
-  //     }
-  //   })
-  //   .then(() => {
-
-  //   })
-  //   .catch(err => console.log(err));
 
     if (message.author.bot) return undefined;
     if (

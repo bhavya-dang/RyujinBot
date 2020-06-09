@@ -13,7 +13,15 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send(errEmbed);
   } else {
     try {
-      malScraper.getInfoFromName(query).then((data) => {
+      const data = await malScraper.getInfoFromName(query);
+      if(!data) {
+        let errEmbed = new Discord.RichEmbed()
+        .setTitle("**ERROR** - Could not fetch data (403)")
+        .setDescription("The MyAnimeList API might be down currently. Please try again later!")
+        .setTimestamp(moment.utc().format());
+  
+      message.channel.send(errEmbed);
+      }
         const embed = new Discord.RichEmbed()
           .setTimestamp(moment.utc().format())
           .setFooter("Information supplied by MyAnimeList API")
@@ -32,7 +40,6 @@ module.exports.run = async (bot, message, args) => {
           .setDescription(`**Synopsis:**\n${data.synopsis.slice(0, -25)}`);
 
         message.channel.send(embed);
-      });
     } catch (error) {
       console.log(error);
     }
