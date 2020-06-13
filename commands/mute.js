@@ -1,16 +1,26 @@
 const Discord = require("discord.js"),
   fs = require("fs"),
-  moment = require("moment");
+  moment = require("moment"),
+  Guild = require("../models/Guild");
 
 module.exports.run = async (bot, message, args) => {
   await message.delete();
 
-  if (message.guild.id !== "714798049398095882")
+  let modChannel;
+  let muteRole;
+  let data = await Guild.findOne({
+    guildId: message.guild.id,
+  });
+  if (data) {
+    modChannel = data.modChannel;
+    muteRole = data.muteRole;
+  }
+  if ((data.modChannel && data.muteRole === "None") || data.muteRole === "None")
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
         .setDescription(
-          `This command is still in development. Only accessible in the [\`support server!\`](https://discord.gg/btKWdJ)`
+          "You have not specified a mod channel and mute role! Please set them using\n`set modChannel <channelmention>!` | `set muteRole <rolemention>!`"
         )
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
@@ -51,17 +61,17 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-  let mRole = message.guild.roles.find((r) => r.name === "Muted");
-  if (!mRole)
-    return message.channel.send(
-      new Discord.RichEmbed()
-        .setTitle("**ERROR**")
-        .setDescription("`Muted` role does not exist! Please create one!")
-        .setTimestamp(moment.utc().format())
-        .setColor("#ffe66b")
-    );
+  const mRole = message.guild.roles.get(muteRole);
+  // if (!mRole)
+  //   return message.channel.send(
+  //     new Discord.RichEmbed()
+  //       .setTitle("**ERROR**")
+  //       .setDescription("`Muted` role does not exist! Please create one!")
+  //       .setTimestamp(moment.utc().format())
+  //       .setColor("#ffe66b")
+  //   );
 
-  if (mUser.roles.has(mRole.id))
+  if (mUser.roles.has(mRole))
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
@@ -82,7 +92,7 @@ module.exports.run = async (bot, message, args) => {
       `\`${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}\``
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
-  let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
+  let logChannel = message.guild.channels.get(modChannel);
   logChannel.send(embed).then(() => mUser.addRole(mRole.id));
   if (!logChannel)
     return message.channel.send(

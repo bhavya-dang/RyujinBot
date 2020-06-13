@@ -2,11 +2,12 @@
 const http = require("http");
 const express = require("express");
 const app = express();
-
+//require("dotenv/config"); //for development
 app.get("/", (request, response) => {
   console.log(Date.now() + " Ping Received");
   response.sendStatus(200);
 });
+
 // app.listen(process.env.PORT);
 // setInterval(() => {
 //   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
@@ -17,8 +18,11 @@ const Discord = require("discord.js");
 const moment = require("moment");
 const fs = require("fs");
 let bot = new Discord.Client();
-let prefix = "r@"
-//require("dotenv/config"); //for development
+let prefix;
+bot.commands = new Discord.Collection();
+
+let cooldown = new Set();
+let cdSeconds = 5;
 
 // Sending server count to DBL
 const DBL = require("dblapi.js");
@@ -30,33 +34,52 @@ dbl.on("posted", () => {
 });
 
 // bot.Footer = `Developed by ${bot.users.get("414111663076147201").tag}`;
-bot.commands = new Discord.Collection();
-
-let cooldown = new Set();
-let cdSeconds = 5;
 
 // Firebase Setup
-const firebase = require("firebase");
-const FieldValue = require("firebase-admin").firestore.FieldValue;
-const admin = require("firebase-admin");
+// const firebase = require("firebase");
+// const FieldValue = require("firebase-admin").firestore.FieldValue;
+// const admin = require("firebase-admin");
 // const serviceAccount = require("./serviceAccount.json");
-const key = process.env.FIREBASE_PRIVATE_KEY;
-admin.initializeApp({
-  credential: admin.credential.cert({
-    private_key: key.replace(/\\n/g, "\n"),
-    client_email: process.env.CLIENT_EMAIL,
-    project_id: process.env.PROJECT_ID,
-  }),
-  databaseURL: "https://ryujinbot-8c6e8.firebaseio.com",
+// const key = process.env.FIREBASE_PRIVATE_KEY;
+// admin.initializeApp({
+//   credential: admin.credential.cert({
+//     private_key: key.replace(/\\n/g, "\n"),
+//     client_email: process.env.CLIENT_EMAIL,
+//     project_id: process.env.PROJECT_ID,
+//   }),
+//   databaseURL: "https://ryujinbot-8c6e8.firebaseio.com",
+// });
+
+// const db = admin.firestore();
+
+//MongoDB Setup
+const mongoose = require("mongoose"),
+  db = require("./keys").MongoURI,
+  Guild = require("./models/Guild");
+mongoose
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB Connected..."))
+  .catch((err) => console.log(err));
+
+//VultrexDB Setup
+const { VultrexDB } = require("vultrex.db");
+const vdb = new VultrexDB({
+  provider: "sqlite",
+  table: "main",
+  fileName: "main",
 });
 
-const db = admin.firestore();
+vdb.connect().then(() => {
+  console.log("VultrexDB Connected!");
+  console.log(vdb);
+  bot.db = vdb;
+});
 
 // Ready event
 bot.on("ready", () => {
-  setInterval(() => {
-    dbl.postStats(bot.guilds.size);
-  }, 1800000);
+  // setInterval(() => {
+  //   dbl.postStats(bot.guilds.size);
+  // }, 1800000);
 
   console.log(
     `[${moment(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}] [${
@@ -95,87 +118,141 @@ bot.on("ready", () => {
 });
 // Message event
 bot.on("message", async (message) => {
-
-    if (message.author.bot) return undefined;
-    if (
-      message.content === "<@!533902737398824961>" ||
-      message.content === "<@533902737398824961>"
-    ) {
-      return message.channel.send(
-        new Discord.RichEmbed()
-          .setTitle("✶ Ryujin Bot ✶")
-          .setThumbnail(bot.user.displayAvatarURL)
-          .setTimestamp(moment.utc().format())
-          .setColor("#ff1453")
-          .setDescription(
-            `\u2022\ **Changelog** \u2022\ \n- Due to some storage issue with Firebase, custom prefix commands do not work anymore. Prefix is \`r@\` now. \n- Moderation system migrated from old bot [DATABASE INTEGRATION REMAINING]\n\n\u2022\ **Coming Soon** \u2022\ \n- Setup feature: Set custom welcome-leave channels and autorole\n- Leveling System \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or contact me to be a Tester!\n\nAs the bot is constantly in development, you might see two instances (commands running twice) sometimes. Extremely sorry for the inconvinience!`
-          )
-          .addField("Server Prefix:", `\`${prefix}\``, true)
-          .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
-          .addField("Commands Help:", `\`Do ${prefix}help <category>\``, true)
-          .addField("Commands List:", `\`Do ${prefix}help\``, true)
-          .setFooter("Custom Prefix System Disabled currently » Sync#0666")
-      );
-    } else if (!message.content.startsWith(prefix)) return;
-    if (message.channel.type === "dm") return;
-    let args = message.content.slice(prefix.length).trim().split(" ");
-    let cmd = args.shift().toLowerCase();
-    message.prefix = prefix;
-
-    if (cooldown.has(message.author.id)) {
-      message.delete();
-      return message.channel.send(
-        `**Please wait for ${cdSeconds} seconds! [RATELIMITED]**`
-      );
+  if (message.author.bot) return undefined;
+  const levelInfo = await bot.db.get(
+    `level-${message.guild.id}-${message.author.id}`,
+    {
+      level: 1,
+      xp: 0,
+      totalXp: 0,
     }
+  );
 
-    if (!message.member.hasPermission("ADMINISTRATOR")) {
-      cooldown.add(message.author.id);
-    }
+  let generatedXp = Math.floor(Math.random() * 16);
+  levelInfo.xp += generatedXp;
+  levelInfo.totalXp += generatedXp;
 
-    setTimeout(() => {
-      cooldown.delete(message.author.id);
-    }, cdSeconds * 1000);
-
-    // Command Handler
-    try {
-      let commandFile = require(`./commands/${cmd}.js`);
-      commandFile.run(bot, message, args);
-    } catch (err) {
-      console.log(`${err.stack}`);
-    }
-    console.log(
-      `[${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}] [${
-        message.author.tag
-      }]: Command: "${cmd}" [${message.guild.name}] [#${
-        message.channel.name
-      }]`
+  if (levelInfo.xp >= levelInfo.level * 40) {
+    levelInfo.level++;
+    levelInfo.xp = 0;
+    message.channel.send(
+      new Discord.RichEmbed()
+        .setTitle("✶ New Level! ✶")
+        .setAuthor(message.author.tag)
+        .setThumbnail(message.author.displayAvatarURL)
+        .setTimestamp(moment.utc().format())
+        .setColor("#ff1453")
+        .setDescription(
+          `You are now level \`${levelInfo.level}\` ${message.author}!`
+        )
+        .setFooter("Ryu Leveling System")
     );
+  }
+  await bot.db.set(`level-${message.guild.id}-${message.author.id}`, levelInfo);
+  let data = await Guild.findOne({ guildId: message.guild.id });
+  if (data) {
+    prefix = data.prefix;
+  } else {
+    prefix = "r@";
+  }
+
+  if (
+    message.content === `<@!${bot.user.id}>` ||
+    message.content === `<@${bot.user.id}>`
+  ) {
+    return message.channel.send(
+      new Discord.RichEmbed()
+        .setTitle("✶ Ryujin Bot ✶")
+        .setThumbnail(bot.user.displayAvatarURL)
+        .setTimestamp(moment.utc().format())
+        .setColor("#ff1453")
+        .setDescription(
+          `\u2022\ **Changelog** \u2022\ \n- Integrated Leveling System - Use commands -> \`rank (for rank card)\` | \`lbd (for leaderboard)\`\n- Integrated Moderation System - User commands -> \`ban\` | \`kick\` | \`warn\` | \`mute\` | \`unmute\`\n- Integrated Logging System -> set custom welcome-leave channel, mod channel, auto-role and mute-role\n- Custom Configuration - Use commands -> \`set prefix/modChannel/autoRole/logChannel/muteRole\` | \`config\`\n\nNote: If you don't want to use auto-role or moderation commands, do not use the \`set\` command! \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or [\`Donate!\`](https://discord.gg/btKWdJ7)\ as it helps with the management of the bot :)`
+        )
+        .addField("Server Prefix:", `\`${prefix}\``, true)
+        .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
+        .addField("Commands List:", `\`${prefix}help\``, true)
+        .setFooter("Developed By Sync#0666")
+    );
+  } else if (!message.content.startsWith(prefix)) return;
+
+  if (message.channel.type === "dm") return;
+  let args = message.content.slice(prefix.length).trim().split(" ");
+  let cmd = args.shift().toLowerCase();
+  message.prefix = prefix;
+
+  if (cooldown.has(message.author.id)) {
+    message.delete();
+    return message.channel.send(
+      new Discord.RichEmbed()
+        .setTitle("**RATELIMITED**")
+        .setDescription(
+          `**Please wait for **${cdSeconds}** seconds before trying again!**`
+        )
+        .setTimestamp(moment.utc().format())
+    );
+  }
+
+  if (!message.member.hasPermission("ADMINISTRATOR")) {
+    cooldown.add(message.author.id);
+  }
+
+  setTimeout(() => {
+    cooldown.delete(message.author.id);
+  }, cdSeconds * 1000);
+
+  // Command Handler
+  try {
+    let commandFile = require(`./commands/${cmd}.js`);
+    commandFile.run(bot, message, args);
+  } catch (err) {
+    console.log(`${err.stack}`);
+  }
+  console.log(
+    `[${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}] [${
+      message.author.tag
+    }]: Command: "${cmd}" [${message.guild.name}] [#${message.channel.name}]`
+  );
 });
 
+let autoRole;
+let logChannel;
 bot.on("guildMemberAdd", async (member) => {
-  if (member.guild.id === "714798049398095882") {
-    const botRole = member.guild.roles.find((r) => r.name === "The Cardinals");
-    const memberRole = member.guild.roles.find((m) => m.name === "Pariah");
+  let data = await Guild.findOne({ guildId: member.guild.id });
+  if (
+    (data.logChannel && data.autoRole === "None") ||
+    data.autoRole === "None" ||
+    data.logChannel === "None"
+  )
+    return;
+  if (data) {
+    autoRole = data.autoRole;
+    logChannel = data.logChannel;
+  }
 
-    if (member.user.bot) {
-      member.addRole(botRole);
-    } else {
-      member.addRole(memberRole);
+  const memberRole = member.guild.roles.get(autoRole);
+
+  try {
+    if (!member.user.bot) {
+      if (bot.user.hasPermission("MANAGE_MEMBERS"))
+        return member.addRole(memberRole);
     }
-    let wChannel = bot.channels.get("714798050291482669");
-    let joinEmbed = new Discord.RichEmbed()
-      .setColor(0x9acd32)
-      .setAuthor(
-        `${member.displayName}, has joined ${member.guild.name}.`,
-        member.user.displayAvatarURL
-      )
-      .setTimestamp()
-      .setFooter(`User Joined | ${member.guild.memberCount} Members`);
-    wChannel.send(joinEmbed);
-    let bots = member.guild.members.filter((mem) => mem.user.bot).size;
-    let users = member.guild.members.filter((mem) => !mem.user.bot).size;
-
+  } catch (error) {
+    console.log(error);
+  }
+  let wChannel = member.guild.channels.get(logChannel);
+  let joinEmbed = new Discord.RichEmbed()
+    .setColor(0x9acd32)
+    .setAuthor(
+      `${member.displayName}, has joined ${member.guild.name}.`,
+      member.user.displayAvatarURL
+    )
+    .setTimestamp()
+    .setFooter(`User Joined | ${member.guild.memberCount} Members`);
+  wChannel.send(joinEmbed);
+  let bots = member.guild.members.filter((mem) => mem.user.bot).size;
+  let users = member.guild.members.filter((mem) => !mem.user.bot).size;
+  if (member.guild.id === "714798049398095882") {
     member.guild.channels
       .get("714798049888829452")
       .setName(`Member Count: ${users}`);
@@ -186,18 +263,27 @@ bot.on("guildMemberAdd", async (member) => {
 });
 
 bot.on("guildMemberRemove", async (member) => {
+  let data = await Guild.findOne({ guildId: member.guild.id });
+  if (
+    (data.logChannel && data.autoRole === "None") ||
+    data.autoRole === "None" ||
+    data.logChannel === "None"
+  )
+    return;
+  if (data) {
+    logChannel = data.logChannel;
+  }
+  let lChannel = member.guild.channels.get(logChannel);
+  let leaveEmbed = new Discord.RichEmbed()
+    .setColor(0xe26346)
+    .setAuthor(
+      `${member.displayName}, has left ${member.guild.name}.`,
+      member.user.displayAvatarURL
+    )
+    .setTimestamp()
+    .setFooter(`User Left | ${member.guild.memberCount} Members`);
+  lChannel.send(leaveEmbed);
   if (member.guild.id === "714798049398095882") {
-    let lChannel = bot.channels.get("714798050291482669");
-    let leaveEmbed = new Discord.RichEmbed()
-      .setColor(0xe26346)
-      .setAuthor(
-        `${member.displayName}, has left ${member.guild.name}.`,
-        member.user.displayAvatarURL
-      )
-      .setTimestamp()
-      .setFooter(`User Left | ${member.guild.memberCount} Members`);
-    lChannel.send(leaveEmbed);
-
     let bots = member.guild.members.filter((mem) => mem.user.bot).size;
     let users = member.guild.members.filter((mem) => !mem.user.bot).size;
 
@@ -209,7 +295,6 @@ bot.on("guildMemberRemove", async (member) => {
       .setName(`Bot Count: ${bots}`);
   } else return;
 });
-
 bot.on("guildCreate", async (guild) => {
   let guildJoinEmbed = new Discord.RichEmbed()
     .setTitle("Joined Guild!")
@@ -223,17 +308,25 @@ bot.on("guildCreate", async (guild) => {
     .setColor("#ffe66b");
   bot.channels.get("717017858273574914").send(guildJoinEmbed);
 
-  // db.collection("guilds")
-  //   .doc(guild.id)
-  //   .set({
-  //     guildId: guild.id,
-  //     guildName: guild.name,
-  //     guildOwner: guild.owner.user.tag,
-  //     guildOwnerID: guild.ownerID,
-  //     memberCount: guild.memberCount,
-  //     prefix: "r@",
-  //   })
-  //   .then(() => console.log(`[${guild.id}][${guild.name}] Document Created`));
+  const newGuild = new Guild({
+    guildId: guild.id,
+    guildName: guild.name,
+    guildOwner: guild.owner.user.tag,
+    guildOwnerID: guild.ownerID,
+    memberCount: guild.memberCount,
+    prefix: "r@",
+    modChannel: "None",
+    logChannel: "None",
+    autoRole: "None",
+    muteRole: "None",
+    time: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
+  });
+
+  newGuild
+    .save()
+    .then((res) =>
+      console.log(res, `[${guild.id}][${guild.name}] Query Deleted`)
+    );
 });
 
 bot.on("guildDelete", async (guild) => {
@@ -244,14 +337,14 @@ bot.on("guildDelete", async (guild) => {
     .addField("Guild ID:", `\`${guild.id}\``)
     .addField("Guild Owner:", `\`${guild.owner.user.tag}\``)
     .addField("Guild OwnerID:", `\`${guild.ownerID}\``)
-    .addField("Member Count:", `\`${guild.users.size}\``)
+    .addField("Member Count:", `\`${guild.memberCount}\``)
     .setTimestamp(moment.utc().format())
     .setColor("#ffe66b");
   bot.channels.get("717017858273574914").send(guildLeaveEmbed);
-  // db.collection("guilds")
-  //   .doc(guild.id)
-  //   .delete()
-  //   .then(() => console.log(`[${guild.id}][${guild.name}] Document Deleted`));
+
+  Guild.deleteOne({ guildId: guild.id }).then(() =>
+    console.log(`[${guild.id}][${guild.name}] Query Deleted`)
+  );
 });
 // Ryujin Login:
 bot.login(process.env.TOKEN);

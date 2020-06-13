@@ -10,17 +10,26 @@ module.exports.run = async (bot, message, args) => {
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
+  let modChannel;
   await message.delete();
-  if (message.guild.id !== "714798049398095882")
+
+  let data = await Guild.findOne({
+    guildId: message.guild.id,
+  });
+  if (data) {
+    modChannel = data.modChannel;
+  }
+  if (data.modChannel === "None ")
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
         .setDescription(
-          `This command is still in development. Only accessible in the [\`support server!\`](https://discord.gg/btKWdJ)`
+          "You have not specified a mod channel! Please set one using `set modChannel <channelmention>!`"
         )
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
+
   let wUser = message.guild.member(
     message.mentions.users.first() || message.guild.members.get(args[0])
   );
@@ -69,12 +78,14 @@ module.exports.run = async (bot, message, args) => {
       `\`${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}\``
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
-  let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
+  let logChannel = message.guild.channels.get(modChannel);
   if (!logChannel)
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
-        .setDescription("Can't find mod-log channel!")
+        .setDescription(
+          "Can't find mod-log channel! Use `set modChannel <channelmention> to set one!`"
+        )
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );

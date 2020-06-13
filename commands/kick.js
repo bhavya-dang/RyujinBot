@@ -14,18 +14,27 @@ module.exports.run = async (bot, message, args) => {
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
 
-  await message.delete();
+    let modChannel;
+    await message.delete();
+  
+    let data = await Guild.findOne({
+      guildId: message.guild.id,
+    });
+    if (data) {
+      modChannel = data.modChannel;
+    }
+    if (data.modChannel === "None")
+      return message.channel.send(
+        new Discord.RichEmbed()
+          .setTitle("**ERROR**")
+          .setDescription(
+            "You have not specified a mod channel! Please set one using `set modChannel <channelmention>!`"
+          )
+          .setTimestamp(moment.utc().format())
+          .setColor("#ffe66b")
+      );
+  ;
 
-  if (message.guild.id !== "714798049398095882")
-    return message.channel.send(
-      new Discord.RichEmbed()
-        .setTitle("**ERROR**")
-        .setDescription(
-          `This command is still in development. Only accessible in the [\`support server!\`](https://discord.gg/btKWdJ)`
-        )
-        .setTimestamp(moment.utc().format())
-        .setColor("#ffe66b")
-    );
   let kUser = message.guild.member(
     message.mentions.users.first() || message.guild.members.get(args[0])
   );
@@ -74,15 +83,17 @@ module.exports.run = async (bot, message, args) => {
       `\`${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}\``
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
-  let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
-  if (!logChannel)
-    return message.channel.send(
-      new Discord.RichEmbed()
-        .setTitle("**ERROR**")
-        .setDescription("Can't find mod-log channel!")
-        .setTimestamp(moment.utc().format())
-        .setColor("#ffe66b")
-    );
+    let logChannel = message.guild.channels.get(modChannel);
+    if (!logChannel)
+      return message.channel.send(
+        new Discord.RichEmbed()
+          .setTitle("**ERROR**")
+          .setDescription(
+            "Can't find mod-log channel! Use `set modChannel <channelmention> to set one!`"
+          )
+          .setTimestamp(moment.utc().format())
+          .setColor("#ffe66b")
+      );
   kUser.kick(kReason).then(() => logChannel.send(kickEmbed));
   const newKick = new Kick({
     kUserName: kUser.user.tag,

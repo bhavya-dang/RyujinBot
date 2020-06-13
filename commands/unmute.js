@@ -1,15 +1,26 @@
 const Discord = require("discord.js"),
   fs = require("fs"),
-  moment = require("moment");
+  moment = require("moment"),
+  Guild = require("../models/Guild");
 
 module.exports.run = async (bot, message, args) => {
   await message.delete();
-  if (message.guild.id !== "714798049398095882")
+
+  let modChannel;
+  let muteRole;
+  let data = await Guild.findOne({
+    guildId: message.guild.id,
+  });
+  if (data) {
+    modChannel = data.modChannel;
+    muteRole = data.muteRole;
+  }
+  if ((data.modChannel && data.muteRole === "None") || data.muteRole === "None")
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
         .setDescription(
-          `This command is still in development. Only accessible in the [\`support server!\`](https://discord.gg/btKWdJ)`
+          "You have not specified a mod channel and mute role! Please set them using\n`set modChannel <channelmention>!` | `set muteRole <rolemention>!`"
         )
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
@@ -17,24 +28,6 @@ module.exports.run = async (bot, message, args) => {
   let mUser = message.guild.member(
     message.mentions.users.first() || message.guild.members.get(args[0])
   );
-
-  if (!mUser.roles.has(mRole.id))
-    return message.channel.send(
-      new Discord.RichEmbed()
-        .setTitle("**ERROR**")
-        .setDescription("This person is not muted!")
-        .setTimestamp(moment.utc().format())
-        .setColor("#ffe66b")
-    );
-
-  // if (mUser.id === message.author.id)
-  //   return message.channel.send(
-  //     new Discord.RichEmbed()
-  //       .setTitle("**ERROR**")
-  //       .setDescription("You can't mute yourself!")
-  //       .setTimestamp(moment.utc().format())
-  //       .setColor("#ffe66b")
-  //   );
   if (!mUser)
     return message.channel.send(
       new Discord.RichEmbed()
@@ -43,16 +36,6 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
-  let mRole = message.guild.roles.find((r) => r.name === "Muted");
-  if (!mRole)
-    return message.channel.send(
-      new Discord.RichEmbed()
-        .setTitle("**ERROR**")
-        .setDescription("`Muted` role does not exist! Please create one!")
-        .setTimestamp(moment.utc().format())
-        .setColor("#ffe66b")
-    );
-
   let mReason = args.join(" ").trim().slice(22);
   if (!message.member.hasPermission("MANAGE_ROLES"))
     return message.channel.send(
@@ -70,6 +53,25 @@ module.exports.run = async (bot, message, args) => {
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
+  const mRole = message.guild.roles.get(muteRole);
+  // if (!mRole)
+  //   return message.channel.send(
+  //     new Discord.RichEmbed()
+  //       .setTitle("**ERROR**")
+  //       .setDescription("`Muted` role does not exist! Please create one!")
+  //       .setTimestamp(moment.utc().format())
+  //       .setColor("#ffe66b")
+  //   );
+
+  if (mUser.roles.has(mRole))
+    return message.channel.send(
+      new Discord.RichEmbed()
+        .setTitle("**ERROR**")
+        .setDescription("This person is not muted!")
+        .setTimestamp(moment.utc().format())
+        .setColor("#ffe66b")
+    );
+
   let embed = new Discord.RichEmbed()
     .setTitle("Unute")
     .setColor("#bc0000")
@@ -82,20 +84,22 @@ module.exports.run = async (bot, message, args) => {
       `\`${moment.utc(new Date()).format("dddd, MMMM Do YYYY, HH:mm:ss")}\``
     )
     .setFooter("Developed by Sync#0666", bot.user.displayAvatarURL);
-  let logChannel = message.guild.channels.find((c) => c.name === "mod-log");
-  logChannel.send(embed).then(() => mUser.removeRole(mRole.id));
+  let logChannel = message.guild.channels.get(modChannel);
+  logChannel.send(embed).then(() => mUser.removeRole(mRole));
   if (!logChannel)
     return message.channel.send(
       new Discord.RichEmbed()
         .setTitle("**ERROR**")
-        .setDescription("Can't find mod-log channel!")
+        .setDescription(
+          "Can't find mod-log channel! Please sepcify one using the set command!"
+        )
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     );
   message.channel
     .send(
       new Discord.RichEmbed()
-        .setDescription(`Member has been unmuted!`)
+        .setDescription(`Member has been umuted!`)
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
     )
