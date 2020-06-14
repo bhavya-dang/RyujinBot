@@ -234,7 +234,7 @@ bot.on("guildMemberAdd", async (member) => {
   if (
     (data.logChannel && data.autoRole === undefined) ||
     data.autoRole === undefined ||
-    data.logChannel === undefined || (!bot.user.hasPermission("MANAGE_ROLES"))
+    data.logChannel === undefined || (!member.guild.member(bot.user).hasPermission("MANAGE_ROLES"))
   )
     return;
   if (data) {

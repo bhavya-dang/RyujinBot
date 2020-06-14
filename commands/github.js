@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
       .setTitle("**ERROR**")
       .addField("Usage", "`r@github <username>`")
       .setTimestamp(moment.utc().format());
-    message.channel.send(uEmbed);
+    return message.channel.send(uEmbed);
   }
   const data = await fetch(`https://api.github.com/users/${user}`).then((res) =>
     res.json()

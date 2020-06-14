@@ -82,7 +82,7 @@ module.exports.run = async (bot, message, args) => {
       )
       .addField(
         "`Github Repository`",
-        `[\`https:${gitshort.length === 0 ? "None" : gitshort}\`](https:${
+        `[\`${gitshort.length === 0 ? "None" : gitshort}\`](${
           gitshort.length === 0 ? "None" : gitshort
         })`
       );
