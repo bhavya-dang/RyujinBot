@@ -232,9 +232,9 @@ bot.on("guildMemberAdd", async (member) => {
     guildId: member.guild.id
   });
   if (
-    (data.logChannel && data.autoRole === "None") ||
-    data.autoRole === "None" ||
-    data.logChannel === "None"
+    (data.logChannel && data.autoRole === undefined) ||
+    data.autoRole === undefined ||
+    data.logChannel === undefined
   )
     return;
   if (data) {
