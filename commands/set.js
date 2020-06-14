@@ -3,11 +3,11 @@ const moment = require("moment");
 const Guild = require("../models/Guild");
 
 module.exports.run = async (bot, message, args) => {
-  if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send(
+  if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send(
     new Discord.RichEmbed()
       .setTitle(`**ERROR**`)
       .setDescription(
-        "You do not have the required permissions `[MANAGE_SERVER]`."
+        "You do not have the required permissions `[ADMINISTRATOR]`."
       )
       .setThumbnail(message.guild.iconURL)
       .setFooter("Ryu Server Confirguration")
@@ -15,11 +15,11 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(moment.utc().format())
       .setFooter("Ryu Server Configuration")
   ); 
-  if(!message.guild.member(bot.user).hasPermission("MANAGE_SERVER")) return message.channel.send(
+  if(!message.guild.member(bot.user).hasPermission("ADMINISTRATOR")) return message.channel.send(
     new Discord.RichEmbed()
       .setTitle(`**ERROR**`)
       .setDescription(
-        "Bot does not have the required permissions `[MANAGE_SERVER]`."
+        "Bot does not have the required permissions `[ADMINISTRATOR]`."
       )
       .setThumbnail(message.guild.iconURL)
       .setFooter("Ryu Server Confirguration")
