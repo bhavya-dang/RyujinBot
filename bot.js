@@ -177,7 +177,7 @@ bot.on("message", async (message) => {
       .setTimestamp(moment.utc().format())
       .setColor("#ff1453")
       .setDescription(
-        `\u2022\ **Changelog** \u2022\ \n- Integrated Leveling System - Use commands -> \`rank (for rank card)\` | \`lbd (for leaderboard)\`\n- Integrated Moderation System - User commands -> \`ban\` | \`kick\` | \`warn\` | \`mute\` | \`unmute\`\n- Integrated Logging System -> set custom welcome-leave channel, mod channel, auto-role and mute-role\n- Custom Configuration - Use commands -> \`set prefix/modChannel/autoRole/logChannel/muteRole\` | \`config\`\n\nNote: If you don't want to use auto-role or moderation commands, do not use the \`set\` command! \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or [\`Donate!\`](https://discord.gg/btKWdJ7)\ as it helps with the management of the bot :)`
+        `\u2022\ **Changelog** \u2022\ \n\n- Integrated Leveling System\n \`rank (for rank card)\` | \`lbd (for leaderboard)\`\n\n- Integrated Moderation System\n \`ban\` | \`kick\` | \`warn\` | \`mute\` | \`unmute\`\n\n- Integrated Logging System\n\n- Custom Configuration\n\`set prefix/modChannel/autoRole/logChannel/muteRole\` | \`config\`\n\nNote: If you don't want to use auto-role or moderation commands, do not use the \`set\` command! \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or [\`Donate!\`](https://discord.gg/btKWdJ7)\ as it helps with the management of the bot :)`
       )
       .addField("Server Prefix:", `\`${prefix}\``, true)
       .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
