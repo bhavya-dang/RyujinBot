@@ -10,14 +10,12 @@ module.exports.run = async (bot, message, args) => {
     let logChannel;
 
 let data = await Guild.findOne({ guildId: message.guild.id });
-    if(data){
+    if(data.modChannel && data.muteRole && data.autoRole && data.logChannel !== undefined){
         prefix = data.prefix;
         modChannel = message.guild.channels.get(data.modChannel);
         logChannel = message.guild.channels.get(data.logChannel);
         autoRole = message.guild.roles.get(data.autoRole);
         muteRole = message.guild.roles.get(data.muteRole);
-        
-
         let embed = new Discord.RichEmbed()
         .setTitle(`Configuration for ${message.guild.name}`)
         .setThumbnail(message.guild.iconURL)
@@ -26,6 +24,18 @@ let data = await Guild.findOne({ guildId: message.guild.id });
         .addField("Log (Welcome/Leave) Channel:", `${logChannel}`)
         .addField("Auto Role", `${autoRole}`)
         .addField("Mute Role", `${muteRole}`)
+        .setTimestamp(moment.utc().format())
+        .setColor("#ffe66b")
+        message.channel.send(embed)
+    } else {    
+        let embed = new Discord.RichEmbed()
+        .setTitle(`Configuration for ${message.guild.name}`)
+        .setThumbnail(message.guild.iconURL)
+        .addField("Prefix:", "`Not Set`", true)
+        .addField("Mod Channel:", "`Not Set`")
+        .addField("Log (Welcome/Leave) Channel:", "`Not Set`")
+        .addField("Auto Role", "`Not Set`")
+        .addField("Mute Role", "`Not Set`")
         .setTimestamp(moment.utc().format())
         .setColor("#ffe66b")
         message.channel.send(embed)
