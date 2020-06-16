@@ -59,15 +59,13 @@ const mongoose = require("mongoose"),
 mongoose
   .connect(db, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
 //VultrexDB Setup
-const {
-  VultrexDB
-} = require("vultrex.db");
+const { VultrexDB } = require("vultrex.db");
 const vdb = new VultrexDB({
   provider: "sqlite",
   table: "main",
@@ -79,7 +77,7 @@ vdb.connect().then(() => {
   console.log(vdb);
   bot.db = vdb;
 });
-bot.randomColor = Math.floor(Math.random()*16777215).toString(16);
+bot.randomColor = Math.floor(Math.random() * 16777215).toString(16);
 // Ready event
 bot.on("ready", () => {
   // setInterval(() => {
@@ -118,7 +116,7 @@ bot.on("ready", () => {
     ];
     let rstatus = Math.floor(Math.random() * status.length);
     bot.user.setActivity(status[rstatus], {
-      type: "STREAMING"
+      type: "STREAMING",
     });
   }
   setInterval(botStatus, 20000);
@@ -127,7 +125,8 @@ bot.on("ready", () => {
 bot.on("message", async (message) => {
   if (message.author.bot) return undefined;
   const levelInfo = await bot.db.get(
-    `level-${message.guild.id}-${message.author.id}`, {
+    `level-${message.guild.id}-${message.author.id}`,
+    {
       level: 1,
       xp: 0,
       totalXp: 0,
@@ -142,23 +141,25 @@ bot.on("message", async (message) => {
     levelInfo.level++;
     levelInfo.xp = 0;
     if (message.guild.id !== "638036514214772737") {
-      message.channel.send(
-        new Discord.RichEmbed()
-        .setTitle("✶ New Level! ✶")
-        .setAuthor(message.author.tag)
-        .setThumbnail(message.author.displayAvatarURL)
-        .setTimestamp(moment.utc().format())
-        .setColor(`#${bot.randomColor}`)
-        .setDescription(
-          `You are now level \`${levelInfo.level}\` ${message.author}!`
+      message.channel
+        .send(
+          new Discord.RichEmbed()
+            .setTitle("✶ New Level! ✶")
+            .setAuthor(message.author.tag)
+            .setThumbnail(message.author.displayAvatarURL)
+            .setTimestamp(moment.utc().format())
+            .setColor(`#${bot.randomColor}`)
+            .setDescription(
+              `You are now level \`${levelInfo.level}\` ${message.author}!`
+            )
+            .setFooter("Ryu Leveling System")
         )
-        .setFooter("Ryu Leveling System")
-      ).then(msg => msg.delete(4000));
+        .then((msg) => msg.delete(4000));
     } else return undefined;
   }
   await bot.db.set(`level-${message.guild.id}-${message.author.id}`, levelInfo);
   let data = await Guild.findOne({
-    guildId: message.guild.id
+    guildId: message.guild.id,
   });
   if (data) {
     prefix = data.prefix;
@@ -172,17 +173,17 @@ bot.on("message", async (message) => {
   ) {
     return message.channel.send(
       new Discord.RichEmbed()
-      .setTitle("✶ Ryujin Bot ✶")
-      .setThumbnail(bot.user.displayAvatarURL)
-      .setTimestamp(moment.utc().format())
-      .setColor("#ff1453")
-      .setDescription(
-        `\u2022\ **Changelog** \u2022\ \n\n- Integrated Leveling System\n \`rank (for rank card)\` | \`lbd (for leaderboard)\`\n\n- Integrated Moderation System\n \`ban\` | \`kick\` | \`warn\` | \`mute\` | \`unmute\`\n\n- Integrated Logging System\n\n- Custom Configuration\n\`set prefix/modChannel/autoRole/logChannel/muteRole\` | \`config\`\n\nNote: If you don't want to use auto-role or moderation commands, do not use the \`set\` command! \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or [\`Donate!\`](https://discord.gg/btKWdJ7)\ as it helps with the management of the bot :)`
-      )
-      .addField("Server Prefix:", `\`${prefix}\``, true)
-      .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
-      .addField("Commands List:", `\`${prefix}help\``, true)
-      .setFooter("Developed By Sync#0666")
+        .setTitle("✶ Ryujin Bot ✶")
+        .setThumbnail(bot.user.displayAvatarURL)
+        .setTimestamp(moment.utc().format())
+        .setColor("#ff1453")
+        .setDescription(
+          `\u2022\ **Changelog** \u2022\ \n\n- Integrated Leveling System\n \`rank (for rank card)\` | \`lbd (for leaderboard)\`\n\n- Integrated Moderation System\n \`ban\` | \`kick\` | \`warn\` | \`mute\` | \`unmute\`\n\n- Integrated Logging System\n\n- Custom Configuration\n\`set prefix/modChannel/autoRole/logChannel/muteRole\` | \`config\`\n\nNote: If you don't want to use auto-role or moderation commands, do not use the \`set\` command! \n\nLiked the bot? Join the server [\`here!\`](https://discord.gg/btKWdJ7), or [\`Donate!\`](https://discord.gg/btKWdJ7)\ as it helps with the management of the bot :)`
+        )
+        .addField("Server Prefix:", `\`${prefix}\``, true)
+        .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
+        .addField("Commands List:", `\`${prefix}help\``, true)
+        .setFooter("Developed By Sync#0666")
     );
   } else if (!message.content.startsWith(prefix)) return;
 
@@ -195,11 +196,11 @@ bot.on("message", async (message) => {
     message.delete();
     return message.channel.send(
       new Discord.RichEmbed()
-      .setTitle("**RATELIMITED**")
-      .setDescription(
-        `**Please wait for **${cdSeconds}** seconds before trying again!**`
-      )
-      .setTimestamp(moment.utc().format())
+        .setTitle("**RATELIMITED**")
+        .setDescription(
+          `**Please wait for **${cdSeconds}** seconds before trying again!**`
+        )
+        .setTimestamp(moment.utc().format())
     );
   }
 
@@ -229,12 +230,21 @@ let autoRole;
 let logChannel;
 bot.on("guildMemberAdd", async (member) => {
   let data = await Guild.findOne({
-    guildId: member.guild.id
+    guildId: member.guild.id,
   });
   if (
-    (data.logChannel && data.autoRole === undefined) ||
+    data.autoRole === undefined &&
+    !member.guild.member(bot.user).hasPermission("MANAGE_ROLES")
+  )
+    return;
+  if (
+    data.autoRole ||
+    !member.guild.member(bot.user).hasPermission("MANAGE_ROLES")
+  )
+    return;
+  if (
     data.autoRole === undefined ||
-    data.logChannel === undefined || (!member.guild.member(bot.user).hasPermission("MANAGE_ROLES"))
+    member.guild.member(bot.user).hasPermission("MANAGE_ROLES")
   )
     return;
   if (data) {
@@ -252,16 +262,19 @@ bot.on("guildMemberAdd", async (member) => {
   } catch (error) {
     console.log(error);
   }
-  let wChannel = member.guild.channels.get(logChannel);
-  let joinEmbed = new Discord.RichEmbed()
-    .setColor(0x9acd32)
-    .setAuthor(
-      `${member.displayName}, has joined ${member.guild.name}.`,
-      member.user.displayAvatarURL
-    )
-    .setTimestamp()
-    .setFooter(`User Joined | ${member.guild.memberCount} Members`);
-  wChannel.send(joinEmbed);
+
+  if (data.logChannel !== undefined) {
+    let wChannel = member.guild.channels.get(logChannel);
+    let joinEmbed = new Discord.RichEmbed()
+      .setColor(0x9acd32)
+      .setAuthor(
+        `${member.displayName}, has joined ${member.guild.name}.`,
+        member.user.displayAvatarURL
+      )
+      .setTimestamp(moment.utc().format())
+      .setFooter(`User Joined | ${member.guild.memberCount} Members`);
+    wChannel.send(joinEmbed);
+  } else return undefined;
   let bots = member.guild.members.filter((mem) => mem.user.bot).size;
   let users = member.guild.members.filter((mem) => !mem.user.bot).size;
   if (member.guild.id === "714798049398095882") {
@@ -276,27 +289,24 @@ bot.on("guildMemberAdd", async (member) => {
 
 bot.on("guildMemberRemove", async (member) => {
   let data = await Guild.findOne({
-    guildId: member.guild.id
+    guildId: member.guild.id,
   });
-  if (
-    (data.logChannel && data.autoRole === "None") ||
-    data.autoRole === "None" ||
-    data.logChannel === "None"
-  )
-    return;
+
   if (data) {
     logChannel = data.logChannel;
   }
-  let lChannel = member.guild.channels.get(logChannel);
-  let leaveEmbed = new Discord.RichEmbed()
-    .setColor(0xe26346)
-    .setAuthor(
-      `${member.displayName}, has left ${member.guild.name}.`,
-      member.user.displayAvatarURL
-    )
-    .setTimestamp()
-    .setFooter(`User Left | ${member.guild.memberCount} Members`);
-  lChannel.send(leaveEmbed);
+  if (data.logChannel !== undefined) {
+    let lChannel = member.guild.channels.get(logChannel);
+    let leaveEmbed = new Discord.RichEmbed()
+      .setColor(0xe26346)
+      .setAuthor(
+        `${member.displayName}, has left ${member.guild.name}.`,
+        member.user.displayAvatarURL
+      )
+      .setTimestamp()
+      .setFooter(`User Left | ${member.guild.memberCount} Members`);
+    lChannel.send(leaveEmbed);
+  } else return undefined;
   if (member.guild.id === "714798049398095882") {
     let bots = member.guild.members.filter((mem) => mem.user.bot).size;
     let users = member.guild.members.filter((mem) => !mem.user.bot).size;
@@ -357,10 +367,8 @@ bot.on("guildDelete", async (guild) => {
   bot.channels.get("717017858273574914").send(guildLeaveEmbed);
 
   Guild.deleteOne({
-    guildId: guild.id
-  }).then(() =>
-    console.log(`[${guild.id}][${guild.name}] Query Deleted`)
-  );
+    guildId: guild.id,
+  }).then(() => console.log(`[${guild.id}][${guild.name}] Query Deleted`));
 });
 // Ryujin Login:
 bot.login(process.env.TOKEN);
