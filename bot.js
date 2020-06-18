@@ -183,7 +183,7 @@ bot.on("message", async (message) => {
         .addField("Server Prefix:", `\`${prefix}\``, true)
         .addField("Server Configuration:", `\`Do ${prefix}config\``, true)
         .addField("Commands List:", `\`${prefix}help\``, true)
-        .addField("Links", `[\`Website\`](https://ryudashboard.herokuapp.com/) | [\`Donate!\`](https://www.patreon.com/synxc) | [\`Support Server!\`](https://discord.gg/btKWdJ7)`, true)
+        .addField("Links", `[\`Website\`](https://ryudashboard.herokuapp.com/) | [\`Donate!\`](https://www.patreon.com/synxc) | [\`PayPal\`](https://www.paypal.me/syncox) | [\`Support Server!\`](https://discord.gg/btKWdJ7)`, true)
         .setFooter("Developed By Sync#0666")
     );
   } else if (!message.content.startsWith(prefix)) return;
