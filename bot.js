@@ -264,7 +264,8 @@ bot.on("guildMemberAdd", async (member) => {
     console.log(error);
   }
 
-  if (typeof data.logChannel != "undefined" || data.logChannel == "") {
+  try {
+    if (typeof data.logChannel != "undefined" || data.logChannel == "") {
     let wChannel = member.guild.channels.get(logChannel);
     let joinEmbed = new Discord.RichEmbed()
       .setColor(0x9acd32)
@@ -275,7 +276,10 @@ bot.on("guildMemberAdd", async (member) => {
       .setTimestamp(moment.utc().format())
       .setFooter(`User Joined | ${member.guild.memberCount} Members`);
     wChannel.send(joinEmbed);
-  } else return;
+   } else return;
+  } catch(err) {
+    console.log(err)
+  }
   let bots = member.guild.members.filter((mem) => mem.user.bot).size;
   let users = member.guild.members.filter((mem) => !mem.user.bot).size;
   if (member.guild.id === "714798049398095882") {
@@ -296,7 +300,8 @@ bot.on("guildMemberRemove", async (member) => {
   if (data) {
     logChannel = data.logChannel;
   }
-  if (typeof data.logChannel != "undefined" || data.logChannel == "") {
+  try {
+      if (typeof data.logChannel != "undefined" || data.logChannel == "") {
     let lChannel = member.guild.channels.get(logChannel);
     let leaveEmbed = new Discord.RichEmbed()
       .setColor(0xe26346)
@@ -308,6 +313,9 @@ bot.on("guildMemberRemove", async (member) => {
       .setFooter(`User Left | ${member.guild.memberCount} Members`);
     lChannel.send(leaveEmbed);
   } else return;
+  } catch(err) {
+    console.log(err)
+  }
   if (member.guild.id === "714798049398095882") {
     let bots = member.guild.members.filter((mem) => mem.user.bot).size;
     let users = member.guild.members.filter((mem) => !mem.user.bot).size;
