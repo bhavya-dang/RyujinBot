@@ -25,9 +25,5 @@ A multi-purpose discord bot with Moderation, Logging, Custom setup, 24/7 Music S
 - Custom Configuration - Use commands -> `set prefix/modChannel/autoRole/logChannel/muteRole` | `config`
 - Note: If you don't want to use auto-role or moderation commands, do not use the above command!
 
-## Coming Soon
-
-- Web Dashboard [v1 to be released tomorrow!]
-
-If you liked the bot be sure to join its support server [here](https://discord.gg/btKWdJ7)!</br>
+## Issues
 If you find any issue or bug, please [open up an Issue](https://github.com/Sync-Codes/RyujinBot/issues/new) or contact me on Discord: Sync#0666
