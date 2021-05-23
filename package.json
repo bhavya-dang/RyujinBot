@@ -23,7 +23,7 @@
   "dependencies": {
     "MALjs": "^0.1.0",
     "animequote": "^1.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bufferutil": "^4.0.1",
     "canvas": "^2.6.1",
     "canvas-constructor": "^3.2.0",
