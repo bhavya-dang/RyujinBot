@@ -54,7 +54,7 @@
     "moment-duration-format": "^2.2.2",
     "mongoose": "^5.9.17",
     "ms": "^2.1.2",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "node-github.js": "^1.0.7",
     "node-gyp": "^5.0.2",
     "node-opus": "^0.3.2",
