@@ -50,7 +50,7 @@
     "kitsu": "^7.0.4",
     "mal-scraper": "^2.6.9",
     "maljs": "^0.3.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-duration-format": "^2.2.2",
     "mongoose": "^5.9.17",
     "ms": "^2.1.2",
