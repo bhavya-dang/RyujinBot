@@ -36,7 +36,7 @@
     "ffmpeg": "0.0.4",
     "figlet": "^1.2.3",
     "firebase": "^7.14.6",
-    "firebase-admin": "^8.12.1",
+    "firebase-admin": "^11.4.1",
     "fortnite": "^4.3.2",
     "fortnite.js": "^2.1.4",
     "get-json": "^2.0.0",
